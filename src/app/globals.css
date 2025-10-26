@@ -1,26 +1,42 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";@import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&display=swap");@import url("https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&display=swap");
+
+
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #2E2E2E;
+  --font-clash-display: "Clash Display", sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-dm-sans), sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-clash-display {
+  font-family: var(--font-clash-display);
+}
+
+.font-dm-sans {
+  font-family: var(--font-dm-sans);
+}
+
+.font-space-grotesk {
+  font-family: var(--font-space-grotesk);
 }
