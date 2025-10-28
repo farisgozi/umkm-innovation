@@ -1,21 +1,12 @@
 import type { Metadata } from "next";
-import { DM_Sans, Space_Grotesk } from "next/font/google";
+import { dmSans, clashDisplay } from "../fonts/fonts";
 import "./globals.css";
-
-// Note: Clash Display will be loaded via CDN in globals.css for this demo
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
-  subsets: ["latin"],
-});
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
-});
+import Navbar from "./components/layouts/Navbar";
+import MotionFooter from "./components/layouts/MotionFooter";
 
 export const metadata: Metadata = {
-  title: "UMKM - Temukan UMKM Keren di Sekitarmu",
-  description: "Dukung Bisnis Lokal, Bangun Komunitas Hebat. Platform untuk menemukan dan mendukung UMKM di sekitar Anda.",
+  title: "UMKM Kita - Platform Bisnis Lokal",
+  description: "Temukan dan dukung UMKM di sekitar Anda",
 };
 
 export default function RootLayout({
@@ -24,11 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id">
-      <body
-        className={`${dmSans.variable} ${spaceGrotesk.variable} antialiased`}
-      >
-        {children}
+    <html lang="en" className={`${clashDisplay.variable} ${dmSans.variable}`}>
+      <body className="antialiased font-sans">
+        <Navbar/>
+        <main className="pt-20">{children}</main>
+        <MotionFooter/>
       </body>
     </html>
   );
