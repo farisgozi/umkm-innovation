@@ -13,39 +13,16 @@
 /* 📚 Heading Styles */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  color: var(--color-text);
   font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-h1 {
-  font-size: var(--text-5xl);
-  line-height: 1.1;
-}
-h2 {
-  font-size: var(--text-4xl);
-  line-height: 1.2;
-}
-h3 {
-  font-size: var(--text-3xl);
-}
-h4 {
-  font-size: var(--text-2xl);
-}
-h5 {
-  font-size: var(--text-xl);
-}
-h6 {
-  font-size: var(--text-lg);
+  letter-spacing: 0.04em;
 }
 
 /* 📄 Paragraph & small text */
 p {
   font-size: var(--text-base);
   line-height: 1.6;
-  color: var(--color-muted);
 }
+
 small {
   font-size: var(--text-sm);
-  color: var(--color-muted);
 }

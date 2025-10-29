@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import Container from "./Container";
 import { motion, AnimatePresence } from "framer-motion";
@@ -25,14 +26,23 @@ export default function Navbar() {
         scrolled ? "backdrop-blur-md bg-[#FFF8F3]/80 shadow-sm" : "bg-transparent"
       }`}
     >
-      <Container className="flex items-center justify-between py-4">
-        {/* 🧡 Logo */}
-        <Link href="/" className="text-xl font-bold text-[#2E2E2E]">
-          UMKM<span className="text-[#FF885B]">Sekitarmu</span>
+      <Container className="flex items-center justify-between py-4 ">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/assets/images/Logo.png"
+            alt="Logo"
+            width={40}
+            height={40}
+            className="w-9 h-9"
+            priority
+          />
         </Link>
 
-        {/* 🌤️ Desktop Navigation */}
-        <nav className="hidden md:flex gap-8 text-sm font-medium text-[#2E2E2E]">
+        {/*  Desktop Navigation */}
+        <nav className={`hidden md:flex gap-8 text-2xl font-display font-bold ${
+          scrolled ? "text-[#2E2E2E]" : "text-[#FFF8F3]"
+        }`}>
           <Link href="#beranda" className="hover:text-[#FF885B] transition-colors">
             Beranda
           </Link>
@@ -47,7 +57,7 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        {/* 🌅 CTA Button (Desktop) */}
+        {/*  CTA Button (Desktop) */}
         <div className="hidden md:block">
           <motion.button
             whileHover={{ scale: 1.05 }}
@@ -58,7 +68,7 @@ export default function Navbar() {
           </motion.button>
         </div>
 
-        {/* 📱 Mobile Menu Button */}
+        {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden text-[#2E2E2E] hover:text-[#FF885B] transition"
@@ -67,7 +77,7 @@ export default function Navbar() {
         </button>
       </Container>
 
-      {/* 📱 Mobile Drawer */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div

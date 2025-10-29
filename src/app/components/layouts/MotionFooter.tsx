@@ -4,16 +4,25 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Container from "./Container";
-import WarmSunsetWave from "./WarmSunsetWave";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function MotionFooter() {
   const footerRef = useRef<HTMLDivElement>(null);
+  const waveRef = useRef<SVGPathElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Wave Animation
+      gsap.to(waveRef.current, {
+        y: 20,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        duration: 4,
+      });
       
+      // Footer Content Animation
       gsap.from(".footer-content", {
         y: 60,
         opacity: 0,
@@ -30,15 +39,32 @@ export default function MotionFooter() {
   }, []);
 
   return (
-    <footer ref={footerRef} className="relative mt-20 overflow-hidden">
-      {/* 🌊 Animated Wave Background */}
+    <footer ref={footerRef} className="relative overflow-hidden mt-20">
+      {/* Animated Wave Background */}
       <div className="absolute inset-0 -z-10">
-        <WarmSunsetWave/>
+        <svg
+          className="w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+        >
+          <path
+            ref={waveRef}
+            fill="url(#warmSunset)"
+            d="M0,160L60,149.3C120,139,240,117,360,128C480,139,600,181,720,186.7C840,192,960,160,1080,138.7C1200,117,1320,107,1380,101.3L1440,96V320H0Z"
+          ></path>
+          <defs>
+            <linearGradient id="warmSunset" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stopColor="#FF885B" />
+              <stop offset="100%" stopColor="#FFD194" />
+            </linearGradient>
+          </defs>
+        </svg>
       </div>
 
-      {/* 💬 Konten Footer */}
+      {/*  Konten Footer */}
       <Container>
-        <div className="footer-content flex flex-col items-center justify-center gap-3 py-20 color-dark text-center">
+        <div className="footer-content flex flex-col items-center justify-center gap-3 py-20 text-white text-center">
           <h2 className="text-2xl font-bold tracking-wide">
             UMKM<span className="opacity-90"> Sekitarmu</span>
           </h2>

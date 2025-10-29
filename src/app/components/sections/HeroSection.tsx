@@ -50,7 +50,7 @@ const HeroSection = () => {
       <div className="container mx-auto px-6 h-full flex items-center">
         <motion.div style={{ y: fgY }} className="max-w-3xl">
           <motion.h1
-            className="text-4xl md:text-6xl font-extrabold text-white leading-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-[#FFF8F3] leading-tight"
             initial="hidden"
             animate="visible"
             variants={titleVariants}
@@ -69,7 +69,7 @@ const HeroSection = () => {
           </motion.h1>
 
           <motion.p
-            className="mt-5 text-lg md:text-xl text-white/90"
+            className="mt-5 text-lg md:text-xl text-[#FFF8F3]/90"
             initial="hidden"
             animate="visible"
             variants={titleVariants}
@@ -87,22 +87,22 @@ const HeroSection = () => {
           >
             <a
               href="#explore"
-              className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-lg font-medium transition-shadow duration-200 shadow-md hover:shadow-[0_12px_40px_rgba(249,115,22,0.22)] ring-0 hover:ring-4 hover:ring-orange-300/30"
+              className="inline-flex items-center bg-orange-600 hover:bg-orange-700 text-[#FFF8F3] px-6 py-3 rounded-lg font-medium transition-shadow duration-200 shadow-md hover:shadow-[0_12px_40px_rgba(249,115,22,0.22)] ring-0 hover:ring-4 hover:ring-orange-300/30"
               aria-label="Jelajahi Sekarang"
             >
               Jelajahi Sekarang
             </a>
             <a
               href="#about"
-              className="inline-block text-white/90 px-5 py-3 rounded-lg hover:bg-white/5 transition"
+              className="inline-block text-[#FFF8F3]/90 px-5 py-3 rounded-lg hover:bg-[#FFF8F3]/5 transition"
             >
               Pelajari Lebih Lanjut
             </a>
           </motion.div>
 
           {/* Scroll hint */}
-          <div className="mt-12 flex items-center gap-3 text-white/80">
-            <div className="w-10 h-[1px] bg-white/30" />
+          <div className="mt-12 flex items-center gap-3 text-[#FFF8F3]/80">
+            <div className="w-10 h-[1px] bg-[#FFF8F3]/30" />
             <span className="text-sm">Geser ke bawah untuk melihat lebih banyak</span>
           </div>
         </motion.div>
