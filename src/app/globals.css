@@ -1,7 +1,6 @@
 ﻿@import "tailwindcss";
 @import "./styles/theme.css";
 @import "./styles/typography.css";
-@import "./styles/wave-animation.css";
 
 body {
   padding: 0;
