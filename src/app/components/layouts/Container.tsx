@@ -13,7 +13,7 @@ export default function Container({ children, className = "" }: ContainerProps) 
      <div
       className={cn(
 
-        "w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12","relative z-10",
+        "w-full max-w-360 mx-auto px-4 sm:px-6 lg:px-8 xl:px-12","relative z-10",
         className
       )}
     >

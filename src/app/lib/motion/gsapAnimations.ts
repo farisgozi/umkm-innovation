@@ -6,7 +6,7 @@ gsap.registerPlugin(ScrollTrigger);
 export const fadeIn = (target: string | HTMLElement, delay = 0) => {
   gsap.fromTo(
     target,
-    { opacity: 0, y: 40 },
+    { opacity: 0,},
     {
       opacity: 1,
       y: 0,

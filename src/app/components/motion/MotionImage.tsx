@@ -37,7 +37,7 @@ export default function MotionImage({
   return (
     <div
       ref={ref}
-      className="relative w-full h-full overflow-hidden will-change-transform"
+      className="relative w-full h-full will-change-transform"
     >
       <Image
         {...props}

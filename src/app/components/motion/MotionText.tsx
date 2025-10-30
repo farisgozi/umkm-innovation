@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { kineticText } from "./kinecticText";
+import { kineticText } from "./KinecticText";
 
 export default function MotionText({
   text,
