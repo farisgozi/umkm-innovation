@@ -1,0 +1,36 @@
+/* Google Maps Watermark Hide - DEVELOPMENT ONLY */
+/* ⚠️ WARNING: Do NOT use in production - violates Google Maps ToS */
+
+/* Hide "For development purposes only" watermark */
+.gm-style .gm-style-cc {
+  display: none !important;
+}
+
+.gmnoprint {
+  display: none !important;
+}
+
+/* Hide Google logo and terms */
+.gm-style-cc {
+  display: none !important;
+}
+
+/* Hide keyboard shortcuts link */
+.gm-style [title="Keyboard shortcuts"] {
+  display: none !important;
+}
+
+/* Hide development watermark specifically */
+.gm-style div[style*="background-color: rgb(245, 245, 245)"] {
+  display: none !important;
+}
+
+/* Alternative method to hide watermark */
+.gm-style .gm-style-cc > div:first-child {
+  display: none !important;
+}
+
+/* Hide terms of use */
+.gm-style .gm-style-cc > div:last-child {
+  display: none !important;
+}
