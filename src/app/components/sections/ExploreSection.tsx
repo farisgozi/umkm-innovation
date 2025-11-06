@@ -173,14 +173,14 @@ const ExploreSection = () => {
 
           {/* Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            {/* Left Card - Vendor/Restaurant */}
+            {/* Left Card */}
             <motion.div
               variants={leftCardVariants}
               whileHover={{ y: -8 }}
               transition={{ duration: 0.3 }}
               className="relative rounded-3xl overflow-hidden shadow-lg group cursor-pointer"
             >
-              <div className="relative h-[600px] lg:h-[700px] w-full">
+              <div className="relative h-[600px] lg:h-[750px] w-full">
                 <Image
                   src={foodItems[0].image}
                   alt={foodItems[0].name}
