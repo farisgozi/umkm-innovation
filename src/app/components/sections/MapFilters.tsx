@@ -1,67 +1,86 @@
 'use client';
 
-import React from 'react';
-import { UMKM_CATEGORIES } from '../../lib/umkm';
+import { JSX, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Store, UtensilsCrossed, Shirt, Search } from 'lucide-react';
 
-interface MapFiltersProps {
-  selectedCategory: string;
-  onCategoryChange: (category: string) => void;
-  searchQuery: string;
-  onSearchChange: (query: string) => void;
+interface MapFilters {
+  categories: string[];
+  onFilter: (category: string) => void;
+  onSearch: (query: string) => void;
+  activeCategory: string;
 }
 
-const MapFilters: React.FC<MapFiltersProps> = ({
-  selectedCategory,
-  onCategoryChange,
-  searchQuery,
-  onSearchChange
-}) => {
+interface FilterOption {
+  label: string;
+  icon: JSX.Element;
+}
+
+export function MapFilters({ onFilter, onSearch }: MapFilters) {
+  const filters: FilterOption[] = [
+    { label: 'All', icon: <Store className="w-4 h-4" /> },
+    { label: 'Kuliner', icon: <UtensilsCrossed className="w-4 h-4" /> },
+    { label: 'Fashion', icon: <Shirt className="w-4 h-4" /> },
+  ];
+
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState('All');
+
+  const handleSelect = (option: FilterOption) => {
+    setSelected(option.label);
+    onFilter(option.label);
+    setOpen(false);
+  };
+
   return (
-    <div className="mb-6 space-y-4">
-      {/* Search Bar */}
+    <div className="absolute top-6 left-1/2 transform -translate-x-1/2 z-20 flex items-center gap-3">
+      {/* Dropdown Button */}
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        <input
-          type="text"
-          className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-          placeholder="Cari nama UMKM atau alamat..."
-          value={searchQuery}
-          onChange={(e) => onSearchChange(e.target.value)}
-        />
+        <button
+          onClick={() => setOpen(!open)}
+          className="flex items-center gap-2 bg-white shadow-md rounded-full px-4 py-2 hover:shadow-lg transition-shadow duration-200 text-sm font-semibold text-gray-700"
+        >
+          {filters.find(f => f.label === selected)?.icon}
+          {selected}
+        </button>
+
+        {/* Dropdown Card */}
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+              className="absolute top-full mt-2 w-40 bg-white rounded-xl shadow-2xl overflow-hidden flex flex-col"
+            >
+              {filters.map((f) => (
+                <button
+                  key={f.label}
+                  onClick={() => handleSelect(f)}
+                  className={`flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 transition-colors duration-200 ${
+                    selected === f.label ? 'bg-orange-100 text-orange-600 font-semibold' : ''
+                  }`}
+                >
+                  {f.icon}
+                  {f.label}
+                </button>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Category Filter */}
-      <div className="flex flex-wrap gap-2">
-        <button
-          onClick={() => onCategoryChange('all')}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-            selectedCategory === 'all'
-              ? 'bg-blue-500 text-white'
-              : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-          }`}
-        >
-          Semua Kategori
-        </button>
-        {UMKM_CATEGORIES.map((category) => (
-          <button
-            key={category}
-            onClick={() => onCategoryChange(category)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-              selectedCategory === category
-                ? 'bg-blue-500 text-white'
-                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-            }`}
-          >
-            {category}
-          </button>
-        ))}
+      {/* Search Input */}
+      <div className="flex items-center gap-1 border border-gray-300 rounded-full px-3 py-1 bg-white shadow-md">
+        <Search className="w-4 h-4 text-gray-400" />
+        <input
+          type="text"
+          placeholder="Search..."
+          onChange={(e) => onSearch(e.target.value)}
+          className="outline-none text-sm text-gray-700 bg-transparent"
+        />
       </div>
     </div>
   );
-};
-
-export default MapFilters;
+}

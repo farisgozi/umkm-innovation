@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { motion, cubicBezier } from 'framer-motion';
+import { motion,cubicBezier } from 'framer-motion';
 import { Search, Star } from 'lucide-react';
 
 interface Review {
@@ -173,21 +173,21 @@ const ExploreSection = () => {
 
           {/* Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            {/* Left Card */}
+            {/* Left Card - Vendor/Restaurant */}
             <motion.div
               variants={leftCardVariants}
               whileHover={{ y: -8 }}
               transition={{ duration: 0.3 }}
               className="relative rounded-3xl overflow-hidden shadow-lg group cursor-pointer"
             >
-              <div className="relative h-[600px] lg:h-[750px] w-full">
+              <div className="relative h-[600px] lg:h-[700px] w-full">
                 <Image
                   src={foodItems[0].image}
                   alt={foodItems[0].name}
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                 
                 {/* Content Overlay */}
                 <motion.div
@@ -251,7 +251,7 @@ const ExploreSection = () => {
                     </span>
                   </div>
                   <p className="text-gray-700 leading-relaxed text-sm md:text-base">
-                    {reviews[0].text}
+                    &quot;{reviews[0].text}&quot;
                   </p>
                 </div>
               </motion.div>
@@ -269,7 +269,7 @@ const ExploreSection = () => {
                   fill
                   className="object-cover group-hover:scale-110 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                 
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -280,10 +280,10 @@ const ExploreSection = () => {
                   <h3 className="text-2xl md:text-3xl font-bold mb-2">
                     Ayam Geprek Dada
                   </h3>
-                  <p className="text-white/90 text-sm md:text-base">
-                    Nikmati sensasi pedas dan gurih dari Ayam Geprek Dada yang renyah,
-                    disajikan dengan sambal spesial khas kami.
-                  </p>
+                <p className="text-white/90 text-sm md:text-base">
+                  Nikmati sensasi pedas dan gurih dari Ayam Geprek Dada yang renyah,
+                  disajikan dengan sambal spesial khas kami.
+                </p>
                 </motion.div>
               </motion.div>
             </motion.div>

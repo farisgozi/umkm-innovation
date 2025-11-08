@@ -23,7 +23,7 @@ const DynamicMapComponent = dynamic(() => import('./MapComponent'), {
   attribution?: string;
 }>;
 
-// Data contoh UMKM - sama seperti sebelumnya
+// Data contoh UMKM
 const sampleUMKMData: UMKMLocation[] = [
   {
     id: '1',
@@ -53,7 +53,7 @@ const sampleUMKMData: UMKMLocation[] = [
     lat: -6.2297,
     lng: 106.8467,
     category: 'Kerajinan',
-    description: 'Produsen kerajinan bambu berkualitas tinggi, mulai dari furniture hingga dekorasi rumah',
+    description: 'Produsen kerajinan bambu berkualitas tinggi',
     phone: '0813-9876-5432',
     email: 'joko@kerajinanbambu.id',
     rating: 4.8,
@@ -61,11 +61,6 @@ const sampleUMKMData: UMKMLocation[] = [
       open: '09:00',
       close: '17:00',
       days: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
-    },
-    socialMedia: {
-      instagram: 'https://instagram.com/kerajinanbambu_joko',
-      facebook: 'https://facebook.com/kerajinanbambujoko',
-      whatsapp: '6281398765432'
     }
   },
   {
@@ -75,20 +70,13 @@ const sampleUMKMData: UMKMLocation[] = [
     lat: -6.2146,
     lng: 106.8227,
     category: 'Kuliner',
-    description: 'Kedai kopi dengan biji kopi pilihan nusantara, roasting sendiri untuk cita rasa terbaik',
+    description: 'Kedai kopi dengan biji kopi pilihan nusantara',
     phone: '0814-5678-9012',
-    email: 'hello@kopinusantara.id',
-    website: 'https://kopinusantara.id',
     rating: 4.7,
     openHours: {
       open: '07:00',
       close: '22:00',
       days: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
-    },
-    socialMedia: {
-      instagram: 'https://instagram.com/kopinusantara',
-      facebook: 'https://facebook.com/kedaikopinusantara',
-      whatsapp: '6281456789012'
     }
   },
   {
@@ -98,14 +86,9 @@ const sampleUMKMData: UMKMLocation[] = [
     lat: -6.1951,
     lng: 106.8230,
     category: 'Fashion',
-    description: 'Koleksi batik modern dan tradisional untuk berbagai acara',
+    description: 'Koleksi batik modern dan tradisional',
     phone: '0821-5555-1234',
-    rating: 4.6,
-    openHours: {
-      open: '10:00',
-      close: '20:00',
-      days: ['Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu']
-    }
+    rating: 4.6
   },
   {
     id: '5',
@@ -114,31 +97,23 @@ const sampleUMKMData: UMKMLocation[] = [
     lat: -6.2441,
     lng: 106.8291,
     category: 'Teknologi',
-    description: 'Jasa service laptop dan komputer dengan teknisi berpengalaman',
+    description: 'Jasa service laptop dan komputer',
     phone: '0877-9999-8888',
-    rating: 4.4,
-    openHours: {
-      open: '09:00',
-      close: '18:00',
-      days: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu']
-    }
+    rating: 4.4
   }
 ];
 
 const OpenStreetMapSection = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [umkmData, setUmkmData] = useState<UMKMLocation[]>(sampleUMKMData);
+  const [umkmData] = useState<UMKMLocation[]>(sampleUMKMData);
   const [isClient, setIsClient] = useState(false);
-  const [currentMapStyle, setCurrentMapStyle] = useState<MapStyle>(mapStyles[0]); // Default ke Clean Light
+  const [currentMapStyle, setCurrentMapStyle] = useState<MapStyle>(mapStyles[0]);
 
-  // Fix untuk SSR
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Filter UMKM berdasarkan kategori dan pencarian
   const filteredUMKM = useMemo(() => {
     return umkmData.filter((umkm) => {
       const matchesCategory = selectedCategory === 'all' || umkm.category === selectedCategory;
@@ -150,25 +125,6 @@ const OpenStreetMapSection = () => {
       return matchesCategory && matchesSearch;
     });
   }, [selectedCategory, searchQuery, umkmData]);
-
-
-  // Function to get custom icon based on category
-  const getCategoryIcon = (category: string) => {
-    const iconMap: { [key: string]: string } = {
-      'Kuliner': '🍽️',
-      'Fashion': '👗',
-      'Kerajinan': '🎨',
-      'Elektronik': '📱',
-      'Otomotif': '🚗',
-      'Kesehatan & Kecantikan': '💄',
-      'Pendidikan': '📚',
-      'Jasa': '🔧',
-      'Teknologi': '💻',
-      'Pertanian': '🌾',
-      'Lainnya': '🏪'
-    };
-    return iconMap[category] || '📍';
-  };
 
   if (!isClient) {
     return (
@@ -195,7 +151,6 @@ const OpenStreetMapSection = () => {
           Lokasi UMKM Sekitarmu
         </h2>
         
-        {/* Filters */}
         <MapFilters
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
@@ -203,16 +158,16 @@ const OpenStreetMapSection = () => {
           onSearchChange={setSearchQuery}
         />
         
-        {/* OpenStreetMap Container */}
-        <div className="w-full h-[500px] md:h-[600px] lg:h-[700px] rounded-3xl overflow-hidden shadow-2xl relative">
+        {/* OpenStreetMap Container dengan z-index yang tepat */}
+        <div className="w-full h-[500px] md:h-[600px] lg:h-[700px] rounded-3xl overflow-hidden shadow-2xl relative z-0">
           <DynamicMapComponent 
             filteredUMKM={filteredUMKM}
             tileUrl={currentMapStyle.url}
             attribution={currentMapStyle.attribution}
           />
           
-          {/* Map Controls Overlay */}
-          <div className="absolute top-4 left-4 right-4 flex justify-between items-start">
+          {/* Map Controls Overlay - z-index di bawah navbar */}
+          <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-10">
             {/* Map Info */}
             <div className="bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 shadow-lg">
               <div className="flex items-center space-x-2 text-sm">
@@ -223,7 +178,7 @@ const OpenStreetMapSection = () => {
               </div>
             </div>
             
-            {/* Map Style Selector */}
+            {/* Map Style Selector - Perbaikan z-index */}
             <MapStyleSelector
               currentStyle={currentMapStyle.name}
               onStyleChange={setCurrentMapStyle}
@@ -231,7 +186,6 @@ const OpenStreetMapSection = () => {
           </div>
         </div>
       </div>
-      
     </section>
   );
 };

@@ -1,107 +1,64 @@
-import React, { useState } from 'react';
+'use client';
+
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Layers, Check } from 'lucide-react';
 
 interface MapStyleSelectorProps {
-  onStyleChange: (style: MapStyle) => void;
-  currentStyle: string;
+  setMapStyle: (url: string) => void;
 }
 
-export interface MapStyle {
-  name: string;
-  url: string;
-  attribution: string;
-  description: string;
-  preview?: string;
-}
+export function MapStyleSelector({ setMapStyle }: MapStyleSelectorProps) {
+  const styles = [
+    { name: 'Default', url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png' },
+    { name: 'Minimal', url: 'https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png' },
+  ];
 
-export const mapStyles: MapStyle[] = [
-  {
-    name: 'Clean Light',
-    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    description: 'Style minimal dan clean, perfect untuk fokus ke markers'
-  },
-  {
-    name: 'Clean Dark',
-    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    description: 'Dark theme yang elegant dan modern'
-  },
-  {
-    name: 'No Labels',
-    url: 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    description: 'Tanpa label sama sekali - ultra clean untuk markers'
-  },
-  {
-    name: 'Voyager',
-    url: 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    description: 'Balanced style dengan warna yang soft'
-  },
-  {
-    name: 'Standard',
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    description: 'OpenStreetMap standard (detail tinggi)'
-  }
-];
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState(styles[0].name);
 
-const MapStyleSelector: React.FC<MapStyleSelectorProps> = ({ onStyleChange, currentStyle }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const currentStyleObj = mapStyles.find(style => style.name === currentStyle) || mapStyles[0];
+  const handleSelect = (style: typeof styles[0]) => {
+    setSelected(style.name);
+    setMapStyle(style.url);
+    setOpen(false);
+  };
 
   return (
-    <div className="relative">
+    <div className="absolute bottom-6 left-6 z-30">
+      {/* Toggle Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center space-x-2 px-3 py-2 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg hover:bg-white transition-colors text-sm border border-gray-200"
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-2 bg-white rounded-xl shadow-lg px-4 py-2 hover:shadow-xl transition-shadow duration-300 focus:outline-none"
       >
-        <span>🎨</span>
-        <span className="font-medium">{currentStyleObj.name}</span>
-        <svg 
-          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-          fill="none" 
-          stroke="currentColor" 
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+        <Layers className="w-5 h-5 text-orange-500" />
+        <span className="text-sm font-medium text-gray-700">{selected}</span>
       </button>
 
-      {isOpen && (
-        <div className="absolute top-full mt-2 right-0 w-80 bg-white rounded-lg shadow-xl border border-gray-200 z-50">
-          <div className="p-3">
-            <h3 className="font-semibold text-gray-900 mb-2">Pilih Style Map</h3>
-            <div className="space-y-2">
-              {mapStyles.map((style) => (
-                <button
-                  key={style.name}
-                  onClick={() => {
-                    onStyleChange(style);
-                    setIsOpen(false);
-                  }}
-                  className={`w-full text-left p-3 rounded-lg border transition-colors ${
-                    currentStyle === style.name
-                      ? 'border-blue-500 bg-blue-50'
-                      : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
-                  }`}
-                >
-                  <div className="flex justify-between items-start mb-1">
-                    <span className="font-medium text-gray-900">{style.name}</span>
-                    {currentStyle === style.name && (
-                      <span className="text-blue-500">✓</span>
-                    )}
-                  </div>
-                  <p className="text-xs text-gray-600">{style.description}</p>
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Dropdown Card */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            className="mt-2 bg-white rounded-xl shadow-2xl overflow-hidden w-48 flex flex-col"
+          >
+            {styles.map((s) => (
+              <button
+                key={s.name}
+                onClick={() => handleSelect(s)}
+                className={`flex items-center justify-between px-4 py-2 text-sm text-gray-700 hover:bg-orange-50 transition-colors duration-200 ${
+                  selected === s.name ? 'font-semibold bg-orange-100 text-orange-600' : ''
+                }`}
+              >
+                {s.name}
+                {selected === s.name && <Check className="w-4 h-4 text-orange-600" />}
+              </button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
-};
-
-export default MapStyleSelector;
+}

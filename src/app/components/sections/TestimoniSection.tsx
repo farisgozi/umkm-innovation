@@ -3,7 +3,7 @@
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, cubicBezier } from "framer-motion";
-import { Star, ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
+import { Star } from "lucide-react";
 
 interface Testimonial {
   id: number;
@@ -17,7 +17,7 @@ interface Testimonial {
 const TestimoniSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlay, setIsAutoPlay] = useState(true);
+  const [isAutoPlay] = useState(true);
   const [direction, setDirection] = useState(1);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -90,17 +90,6 @@ const TestimoniSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  // === Callback Functions ===
-  const nextTestimonial = useCallback(() => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  }, [testimonials.length]);
-
-  const prevTestimonial = useCallback(() => {
-    setDirection(-1);
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  }, [testimonials.length]);
-
   const goToTestimonial = useCallback(
     (index: number) => {
       setDirection(index > currentIndex ? 1 : -1);
@@ -112,15 +101,14 @@ const TestimoniSection = () => {
   // Auto-play effect
   useEffect(() => {
     if (!isAutoPlay || !isVisible) return;
-
     const interval = setInterval(() => {
-      nextTestimonial();
-    }, 4000); // Change every 4 seconds
+      goToTestimonial((currentIndex + 1) % testimonials.length);
+    }, 5000); // Ganti testimonial setiap 5 detik
 
     return () => clearInterval(interval);
-  }, [isAutoPlay, isVisible, nextTestimonial]);
+  }, [isAutoPlay, isVisible, currentIndex, goToTestimonial, testimonials.length]);
 
-  // === Animation Variants ===
+  // === Animation ===
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -270,29 +258,6 @@ const TestimoniSection = () => {
               </AnimatePresence>
             </div>
 
-            {/* Navigation Buttons */}
-            <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between items-center pointer-events-none px-2 md:-mx-16">
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={prevTestimonial}
-                className="pointer-events-auto p-3 md:p-4 rounded-full bg-white hover:bg-orange-500 text-gray-700 hover:text-white shadow-lg transition-colors border-2 border-gray-200"
-                aria-label="Previous testimonial"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={nextTestimonial}
-                className="pointer-events-auto p-3 md:p-4 rounded-full bg-white hover:bg-orange-500 text-gray-700 hover:text-white shadow-lg transition-colors border-2 border-gray-200"
-                aria-label="Next testimonial"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </motion.button>
-            </div>
-
             {/* Dots + Controls */}
             <div className="flex items-center justify-center gap-6 mt-8">
               <div className="flex gap-2">
@@ -311,41 +276,8 @@ const TestimoniSection = () => {
                   />
                 ))}
               </div>
-
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setIsAutoPlay(!isAutoPlay)}
-                className="p-2 rounded-full bg-gray-100 hover:bg-orange-100 transition-colors"
-                aria-label={isAutoPlay ? "Pause autoplay" : "Start autoplay"}
-              >
-                {isAutoPlay ? (
-                  <Pause className="w-5 h-5 text-gray-700" />
-                ) : (
-                  <Play className="w-5 h-5 text-gray-700" />
-                )}
-              </motion.button>
             </div>
           </div>
-
-          {/* CTA Section */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-16 text-center"
-          >
-            <p className="text-gray-600 mb-6 text-lg">
-              Bergabung dengan ribuan UMKM yang telah berkembang bersama kami
-            </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.98 }}
-              className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-colors duration-300"
-            >
-              Mulai Sekarang →
-            </motion.button>
-          </motion.div>
         </motion.div>
       </div>
     </section>

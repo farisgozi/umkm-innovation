@@ -2,15 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { motion, cubicBezier, useReducedMotion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
 export default function HeroSection() {
   const [scrollY, setScrollY] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-
+  const shouldReduceMotion = useReducedMotion();
   useEffect(() => {
-    setIsVisible(true);
-    
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
@@ -19,15 +17,56 @@ export default function HeroSection() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const parallaxOffset = scrollY * 0.5;
+  const parallaxOffset = Math.min(scrollY * 0.4, 200);
+
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: cubicBezier(0.25, 0.1, 0.25, 1)
+      }
+    }
+  };
+
+  const headingVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (custom: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        delay: custom * 0.2,
+        scale: [1.05, 1],
+        ease: cubicBezier(0.25, 0.1, 0.25, 1)
+      }
+    })
+  };
 
   return (
     <section className="relative min-h-screen overflow-hidden flex items-center">
       {/* Background Layer with Parallax */}
-      <div
+      <motion.div
+        initial={{ scale: 1.1, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 1.2, ease: "easeOut" }}
         className="absolute inset-0 -z-10 w-full h-[120vh]"
         style={{
-          transform: `translateY(${parallaxOffset}px)`,
+          transform: `translate3d(0, ${parallaxOffset}px, 0)`,
           transition: 'transform 0.1s ease-out'
         }}
         aria-hidden="true"
@@ -41,111 +80,147 @@ export default function HeroSection() {
         />
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/20 to-black/60" />
-      </div>
+        {/* <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" /> */}
+        <div
+          className="absolute inset-0 bg-gradient-to-b from-[#FF9E6B]/40 via-transparent to-[#2E2E2E]/70"
+          style={{ opacity: Math.min(scrollY / 400, 1) }}
+        />
+
+      </motion.div>
 
       {/* Content Container */}
       <div className="relative z-10 container mx-auto px-6 md:px-8 lg:px-16 py-20 flex items-center min-h-screen">
-        <div className="max-w-4xl">
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          animate={!shouldReduceMotion && "visible"}
+          className="max-w-4xl"
+        >
           
           {/* Main Heading with Staggered Animation */}
           <div className="space-y-2 mb-6">
-            <h1
-              className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-[#FFF8F3] leading-tight transition-all duration-700 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-              style={{ transitionDelay: '100ms' }}
+            <motion.h1
+              custom={0}
+              variants={headingVariants}
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-[#FFF8F3] leading-tight"
             >
               Temukan UMKM
-            </h1>
+            </motion.h1>
 
-            <h1
-              className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-orange-400 leading-tight transition-all duration-700 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-              style={{ transitionDelay: '300ms' }}
+            <motion.h1
+              custom={1}
+              variants={headingVariants}
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-orange-400 leading-tight"
             >
               Keren di
-            </h1>
+            </motion.h1>
 
-            <h1
-              className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-[#FFF8F3] leading-tight transition-all duration-700 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-              }`}
-              style={{ transitionDelay: '500ms' }}
+            <motion.h1
+              custom={2}
+              variants={headingVariants}
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-[#FFF8F3] leading-tight"
             >
               Sekitarmu
-            </h1>
+            </motion.h1>
           </div>
 
           {/* Description */}
-          <p 
-            className={`text-lg md:text-xl text-[#FFF8F3]/90 leading-relaxed max-w-2xl transition-all duration-700 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-            style={{ transitionDelay: '700ms' }}
+          <motion.p 
+            variants={itemVariants}
+            className="text-lg md:text-xl text-[#FFF8F3]/90 leading-relaxed max-w-2xl"
           >
             Dari warung kopi legendaris, kedai bakso andalan, hingga usaha kreatif di kampusmu 
             semua ada di satu tempat. Jelajahi, dukung, dan kenali cerita di balik setiap karya lokal.
-          </p>
+          </motion.p>
 
           {/* CTA Buttons */}
-          <div 
-            className={`mt-8 flex gap-4 flex-wrap items-center transition-all duration-700 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-            style={{ transitionDelay: '900ms' }}
+          <motion.div 
+            variants={itemVariants}
+            className="mt-8 flex gap-4 flex-wrap items-center"
           >
-            <a
+            <motion.a
               href="#explore"
-              className="inline-flex items-center font-bold rounded-full bg-orange-400 hover:bg-orange-500 text-white px-8 py-4 transition-all duration-300 shadow-lg hover:shadow-[0_12px_40px_rgba(249,115,22,0.4)] transform hover:scale-105"
+              whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(249,115,22,0.4)" }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center font-bold rounded-full bg-orange-400 hover:bg-orange-500 text-white px-8 py-4 transition-all duration-300 shadow-lg"
               aria-label="Jelajahi Sekarang"
             >
               Jelajahi Sekarang
-            </a>
-            <a
+            </motion.a>
+            <motion.a
               href="#about"
-              className="inline-flex items-center font-bold text-[#FFF8F3] px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 transition-all duration-300"
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.2)" }}
+              whileTap={{ scale: 0.98 }}
+              className="inline-flex items-center font-bold text-[#FFF8F3] px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 transition-all duration-300"
             >
               Pelajari Lebih Lanjut
-            </a>
-          </div>
+            </motion.a>
+          </motion.div>
 
           {/* Scroll Hint */}
-          <div
-            className={`mt-16 flex items-center gap-3 text-[#FFF8F3]/70 transition-all duration-700 ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            }`}
-            style={{ transitionDelay: '1100ms' }}
+          <motion.div
+            variants={itemVariants}
+            className="mt-16 flex items-center gap-3 text-[#FFF8F3]/70"
           >
-            <div className="w-12 h-px bg-[#FFF8F3]/30" />
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: 48 }}
+              transition={{ duration: 0.8, delay: 1.5 }}
+              className="h-px bg-[#FFF8F3]/30"
+            />
             <span className="text-sm font-medium">
               Geser ke bawah untuk melihat lebih banyak
             </span>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Scroll Indicator - Animated */}
-      <div 
-        className={`absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 transition-all duration-700 ${
-          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-        }`}
-        style={{ transitionDelay: '1300ms' }}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ 
+          duration: 0.8, 
+          delay: 1.8,
+          repeat: Infinity,
+          repeatType: "reverse",
+          repeatDelay: 0.5
+        }}
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
       >
-        <div className="flex flex-col items-center gap-2 text-white/80 animate-bounce">
+        <div className="flex flex-col items-center gap-2 text-white/80">
           <ChevronDown className="w-6 h-6" />
         </div>
-      </div>
+      </motion.div>
 
       {/* Decorative Elements */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-linear-to-t from-black/40 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
       
-      {/* Floating Blobs */}
-      <div className="absolute top-1/4 right-10 w-40 h-40 bg-orange-400/10 rounded-full blur-3xl animate-pulse" />
-      <div 
-        className="absolute bottom-1/4 left-10 w-32 h-32 bg-yellow-400/10 rounded-full blur-3xl animate-pulse" 
-        style={{ animationDelay: '1s' }}
+      {/* Floating Blobs with Animation */}
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3]
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+        className="absolute top-1/4 right-10 w-40 h-40 bg-orange-400/10 rounded-full blur-3xl"
+      />
+      <motion.div 
+        animate={{ 
+          scale: [1, 1.3, 1],
+          opacity: [0.2, 0.4, 0.2]
+        }}
+        transition={{
+          duration: 5,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 1
+        }}
+        className="absolute bottom-1/4 left-10 w-32 h-32 bg-yellow-400/10 rounded-full blur-3xl"
       />
     </section>
   );

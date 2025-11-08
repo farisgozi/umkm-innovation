@@ -86,8 +86,6 @@ const CeritaSection = () => {
     setCurrentStory((prev) => (prev - 1 + stories.length) % stories.length);
   };
 
-  const parallaxOffset = scrollY * 0.3;
-
   // Animation variants
   const headingVariants = (delay: number) => ({
     hidden: { opacity: 0, y: 50 },
@@ -159,7 +157,6 @@ const CeritaSection = () => {
             <motion.div 
               className="absolute inset-0"
               style={{
-                transform: `translateY(${parallaxOffset * 0.5}px)`,
                 transition: 'transform 0.1s ease-out'
               }}
             >
