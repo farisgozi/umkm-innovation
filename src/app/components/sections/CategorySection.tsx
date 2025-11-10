@@ -47,7 +47,7 @@ const CategorySection = () => {
     {
       id: 2,
       name: 'Makanan',
-      illustration: '/assets/images/illustrations/Sesame-bun.png',
+      illustration: '/assets/images/illustrations/sesame-bun.png',
     },
     {
       id: 3,
@@ -136,10 +136,10 @@ const CategorySection = () => {
           
           {/* Left: Carousel Section */}
           <motion.div variants={leftSideVariants} className="relative flex flex-col">
-            <div className="border-4 border-gray-400 rounded-[48px] lg:rounded-[72px] p-6 lg:p-8 bg-white shadow-lg">
+            <div className="border-4 border-[#6B6B6B] rounded-[48px] lg:rounded-[72px] p-6 lg:p-8 bg-[#FFF8F2] shadow-lg">
               <motion.h2
                 variants={itemVariants}
-                className="text-2xl md:text-3xl lg:text-4xl text-center font-bold text-gray-900 mb-8 lg:mb-12"
+                className="text-2xl md:text-3xl lg:text-4xl text-center font-bold text-[#2E2E2E] mb-8 lg:mb-12"
               >
                 Pilih Kategori Favoritmu
               </motion.h2>

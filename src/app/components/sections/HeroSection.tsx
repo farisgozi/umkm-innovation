@@ -80,11 +80,7 @@ export default function HeroSection() {
         />
 
         {/* Gradient Overlay */}
-        {/* <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" /> */}
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-[#FF9E6B]/40 via-transparent to-[#2E2E2E]/70"
-          style={{ opacity: Math.min(scrollY / 400, 1) }}
-        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#2E2E2E]/20 to-[#2E2E2E]/60" />
 
       </motion.div>
 
@@ -110,7 +106,7 @@ export default function HeroSection() {
             <motion.h1
               custom={1}
               variants={headingVariants}
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-orange-400 leading-tight"
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-[#FF9E6B] leading-tight"
             >
               Keren di
             </motion.h1>
@@ -142,16 +138,16 @@ export default function HeroSection() {
               href="#explore"
               whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(249,115,22,0.4)" }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center font-bold rounded-full bg-orange-400 hover:bg-orange-500 text-white px-8 py-4 transition-all duration-300 shadow-lg"
+              className="inline-flex items-center font-bold rounded-full bg-[#FF9E6B] hover:bg-[#FF885B] text-[#FFF8F3] px-8 py-4 transition-all duration-300 shadow-lg"
               aria-label="Jelajahi Sekarang"
             >
               Jelajahi Sekarang
             </motion.a>
             <motion.a
               href="#about"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.2)" }}
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,248,243,0.2)" }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center font-bold text-[#FFF8F3] px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm border border-white/30 transition-all duration-300"
+              className="inline-flex items-center font-bold text-[#FFF8F3] px-8 py-4 rounded-full bg-[#FFF8F3]/10 backdrop-blur-sm border border-[#FFF8F3]/30 transition-all duration-300"
             >
               Pelajari Lebih Lanjut
             </motion.a>
@@ -188,13 +184,13 @@ export default function HeroSection() {
         }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
       >
-        <div className="flex flex-col items-center gap-2 text-white/80">
+        <div className="flex flex-col items-center gap-2 text-[#FFF8F3]/80">
           <ChevronDown className="w-6 h-6" />
         </div>
       </motion.div>
 
       {/* Decorative Elements */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#2E2E2E]/40 to-transparent pointer-events-none" />
       
       {/* Floating Blobs with Animation */}
       <motion.div 
@@ -207,7 +203,7 @@ export default function HeroSection() {
           repeat: Infinity,
           ease: "easeInOut"
         }}
-        className="absolute top-1/4 right-10 w-40 h-40 bg-orange-400/10 rounded-full blur-3xl"
+        className="absolute top-1/4 right-10 w-40 h-40 bg-[#FF9E6B]/10 rounded-full blur-3xl"
       />
       <motion.div 
         animate={{ 
@@ -220,7 +216,7 @@ export default function HeroSection() {
           ease: "easeInOut",
           delay: 1
         }}
-        className="absolute bottom-1/4 left-10 w-32 h-32 bg-yellow-400/10 rounded-full blur-3xl"
+        className="absolute bottom-1/4 left-10 w-32 h-32 bg-[#FF9E6B]/10 rounded-full blur-3xl"
       />
     </section>
   );

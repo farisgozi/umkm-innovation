@@ -225,7 +225,7 @@ export default function Navbar() {
                     <motion.button
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setIsOpen(false)}
-                      className="mt-4 px-6 py-3 text-base font-bold bg-linear-to-r from-[#FF885B] to-[#FF9E6B] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+                      className="mt-4 px-6 py-3 text-base font-bold bg-linear-to-r from-[#FF885B] to-[#FF9E6B] text-[#2E2E2E] rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
                     >
                       Mulai Jelajah
                     </motion.button>

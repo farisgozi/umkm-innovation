@@ -18,29 +18,71 @@ body {
   scroll-behavior: smooth;
 }
 
-/* === Marker Hover & Pulse Animation === */
+/* === Marker Style Improvements (Warm Sunset Theme) === */
 .custom-lucide-marker .marker-pin {
-  transition: all 0.25s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+  position: relative;
 }
 
+/* Efek hover lembut */
 .custom-lucide-marker:hover .marker-pin {
-  transform: rotate(-45deg) scale(1.12);
-  box-shadow: 0 0 12px rgba(255, 136, 91, 0.8);
+  transform: rotate(-45deg) scale(1.15);
+  box-shadow: 0 0 14px rgba(255, 142, 91, 0.8);
+  filter: drop-shadow(0 6px 8px rgba(0, 0, 0, 0.2));
 }
 
-/* Marker aktif dengan efek berdenyut */
+/* Marker aktif dengan efek glowing lembut */
 .marker-pin.active {
-  animation: pulse-glow 1.5s infinite;
+  animation: pulse-glow 1.8s ease-in-out infinite;
 }
 
+/* Efek berdenyut lembut */
 @keyframes pulse-glow {
   0% {
-    box-shadow: 0 0 8px rgba(255, 136, 91, 0.6);
+    box-shadow: 0 0 6px rgba(255, 136, 91, 0.5);
   }
   50% {
     box-shadow: 0 0 18px rgba(255, 136, 91, 0.9);
   }
   100% {
-    box-shadow: 0 0 8px rgba(255, 136, 91, 0.6);
+    box-shadow: 0 0 6px rgba(255, 136, 91, 0.5);
   }
+}
+
+/* === Drop effect di bawah marker (shadow realistis) === */
+.custom-lucide-marker .marker-pin::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 16px;
+  height: 6px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(0, 0, 0, 0.25) 0%,
+    transparent 70%
+  );
+  transform: translateX(-50%) rotate(45deg);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.custom-lucide-marker:hover .marker-pin::after {
+  opacity: 0.9;
+}
+
+/* === Popup Modern === */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+}
+
+.leaflet-popup-close-button {
+  display: none !important;
 }

@@ -5,7 +5,7 @@ import { motion, cubicBezier } from 'framer-motion';
 import { MapPin } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
-const MapComponent = dynamic(() => import('./MapComponent'), { ssr: false });
+const MapComponent = dynamic(() => import('../maps/MapComponent'), { ssr: false });
 
 
 export default function MapsSection  () {
@@ -67,7 +67,7 @@ export default function MapsSection  () {
   };
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 bg-gradient-to-b from-white to-orange-50/30">
+    <section ref={sectionRef} className="py-16 md:py-24 bg-orange-50/30">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <motion.div
           initial="hidden"

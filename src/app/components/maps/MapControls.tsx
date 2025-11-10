@@ -18,7 +18,7 @@ export function MapControls({ onLocate }: MapControlsProps) {
   };
 
   return (
-    <div className="absolute bottom-6 right-6 z-30">
+    <div className="absolute bottom-4 sm:bottom-6 right-4 sm:right-6 z-30">
       <motion.button
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -30,7 +30,6 @@ export function MapControls({ onLocate }: MapControlsProps) {
       >
         <Navigation className="w-5 h-5" />
 
-        {/* Ripple Effect */}
         {ripple && (
           <motion.span
             initial={{ scale: 0, opacity: 0.5 }}

@@ -24,8 +24,7 @@ export function MapStyleSelector({ setMapStyle }: MapStyleSelectorProps) {
   };
 
   return (
-    <div className="absolute bottom-6 left-6 z-30">
-      {/* Toggle Button */}
+    <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 z-30">
       <button
         onClick={() => setOpen(!open)}
         className="flex items-center gap-2 bg-white rounded-xl shadow-lg px-4 py-2 hover:shadow-xl transition-shadow duration-300 focus:outline-none"
@@ -34,7 +33,6 @@ export function MapStyleSelector({ setMapStyle }: MapStyleSelectorProps) {
         <span className="text-sm font-medium text-gray-700">{selected}</span>
       </button>
 
-      {/* Dropdown Card */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -44,7 +42,7 @@ export function MapStyleSelector({ setMapStyle }: MapStyleSelectorProps) {
             transition={{ type: 'spring', stiffness: 200, damping: 20 }}
             className="mt-2 bg-white rounded-xl shadow-2xl overflow-hidden w-48 flex flex-col"
           >
-            {styles.map((s) => (
+            {styles.map(s => (
               <button
                 key={s.name}
                 onClick={() => handleSelect(s)}
