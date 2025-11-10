@@ -5,7 +5,17 @@ import { motion, cubicBezier } from 'framer-motion';
 import { MapPin } from 'lucide-react';
 import dynamic from 'next/dynamic';
 
-const MapComponent = dynamic(() => import('../maps/MapComponent'), { ssr: false });
+const MapComponent = dynamic(() => import('../maps/MapComponent'), { 
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[500px] md:h-[600px] lg:h-[700px] rounded-3xl overflow-hidden shadow-2xl bg-blue-50 flex items-center justify-center">
+      <div className="text-center space-y-4">
+        <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto"></div>
+        <p className="text-gray-600 text-lg">Memuat peta...</p>
+      </div>
+    </div>
+  ) 
+});
 
 
 export default function MapsSection  () {
@@ -105,7 +115,6 @@ export default function MapsSection  () {
           <motion.div
             variants={mapVariants}
           >
-            {/* Interactive Map */}
              <MapComponent />
           </motion.div>
         </motion.div>

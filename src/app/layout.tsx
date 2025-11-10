@@ -28,7 +28,7 @@ export default function RootLayout({
         <Navbar />
         
         {/* Main Content */}
-        <main className="flex flex-col">
+        <main className="flex flex-col ">
           {children}
         </main>
         

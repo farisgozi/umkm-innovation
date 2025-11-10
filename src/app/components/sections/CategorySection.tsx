@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
-import { motion, AnimatePresence, cubicBezier } from 'framer-motion';
+import { motion, AnimatePresence, cubicBezier, Variants } from 'framer-motion';
 
 interface Category {
   id: number;
@@ -124,6 +124,31 @@ const CategorySection = () => {
     }
   };
 
+  // Slide & Fade variants untuk side categories
+  const sideImageVariants = {
+    initial: { 
+      opacity: 0, 
+      x: 0,
+      scale: 0.8
+    },
+    animate: { 
+      opacity: 0.5, 
+      x: 0,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        ease: [0.6, 0.05, 0.01, 0.9]
+      }
+    },
+    exit: { 
+      opacity: 0, 
+      scale: 0.8,
+      transition: {
+        duration: 0.3
+      }
+    }
+  } as Variants;
+
   return (
     <section ref={sectionRef} className="py-16 md:py-24">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
@@ -150,77 +175,81 @@ const CategorySection = () => {
                 className="relative flex flex-col items-center justify-center mb-8 overflow-hidden"
               >
                 <div className="flex items-center justify-center gap-3 md:gap-4 lg:gap-6">
-                  {/* Previous Category */}
+                  {/* Previous Category - WITH ANIMATION */}
                   <motion.button
                     whileHover={{ scale: 1.1, opacity: 0.75 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setActiveCategory(getPrevIndex())}
                     aria-label="Previous category"
-                    className="opacity-50 transition-opacity duration-300"
+                    className="transition-opacity duration-300"
                   >
                     <div className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 flex items-center justify-center">
-                      <Image
-                        src={categories[getPrevIndex()].illustration}
-                        alt={categories[getPrevIndex()].name}
-                        width={160}
-                        height={160}
-                        className="object-contain"
-                        priority
-                      />
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={`prev-${getPrevIndex()}`}
+                          variants={sideImageVariants}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                        >
+                          <Image
+                            src={categories[getPrevIndex()].illustration}
+                            alt={categories[getPrevIndex()].name}
+                            width={160}
+                            height={160}
+                            className="object-contain"
+                            priority
+                          />
+                        </motion.div>
+                      </AnimatePresence>
                     </div>
                   </motion.button>
 
-                  {/* Active Category - Center with Orange Background */}
-                  <div
-                    className='relative'
-                    style={{ perspective: '1000px' }}>
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={activeCategory}
-                        initial={{ scale: 0.8, opacity: 0, rotateY: 90 }}
-                        animate={{ scale: 1, opacity: 1, rotateY: 0 }}
-                        exit={{ scale: 0.8, opacity: 0, rotateY: -90 }}
-                        transition={{ 
-                          duration: 0.5,
-                          ease: [0.6, 0.05, 0.01, 0.9]
-                        }}
-                        whileHover={{ scale: 1.05 }}
-                        className="bg-[#FF885B] rounded-[32px] lg:rounded-[52px] p-6 lg:p-8 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 flex flex-col items-center justify-center shadow-2xl"
-                      >
-                        <div className="w-full h-full flex flex-col items-center justify-center">
-                          <Image
-                            src={categories[activeCategory].illustration}
-                            alt={categories[activeCategory].name}
-                            width={220}
-                            height={220}
-                            className="object-contain mb-2 lg:mb-4"
-                            priority
-                          />
-                          <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-white">
-                            {categories[activeCategory].name}
-                          </h4>
-                        </div>
-                      </motion.div>
-                    </AnimatePresence>
-                  </div>
+                  <motion.div
+                    className="bg-[#FF885B] rounded-[32px] lg:rounded-[52px] p-6 lg:p-8 w-48 h-48 md:w-64 md:h-64 lg:w-80 lg:h-80 flex flex-col items-center justify-center shadow-2xl"
+                  >
+                    <div className="w-full h-full flex flex-col items-center justify-center">
+                      <Image
+                        src={categories[activeCategory].illustration}
+                        alt={categories[activeCategory].name}
+                        width={220}
+                        height={220}
+                        className="object-contain mb-2 lg:mb-4"
+                        priority
+                      />
+                      <h4 className="text-lg md:text-xl lg:text-2xl font-bold text-white">
+                        {categories[activeCategory].name}
+                      </h4>
+                    </div>
+                  </motion.div>
 
-                  {/* Next Category */}
+                  {/* Next Category - WITH ANIMATION */}
                   <motion.button
                     whileHover={{ scale: 1.1, opacity: 0.75 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setActiveCategory(getNextIndex())}
                     aria-label="Next category"
-                    className="opacity-50 transition-opacity duration-300"
+                    className="transition-opacity duration-300"
                   >
                     <div className="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 flex items-center justify-center">
-                      <Image
-                        src={categories[getNextIndex()].illustration}
-                        alt={categories[getNextIndex()].name}
-                        width={160}
-                        height={160}
-                        className="object-contain"
-                        priority
-                      />
+                      <AnimatePresence mode="wait">
+                        <motion.div
+                          key={`next-${getNextIndex()}`}
+                          variants={sideImageVariants}
+                          initial="initial"
+                          animate="animate"
+                          exit="exit"
+                        >
+                          <Image
+                            src={categories[getNextIndex()].illustration}
+                            alt={categories[getNextIndex()].name}
+                            width={160}
+                            height={160}
+                            className="object-contain"
+                            priority
+                          />
+                        </motion.div>
+                      </AnimatePresence>
                     </div>
                   </motion.button>
                 </div>

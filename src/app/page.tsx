@@ -4,7 +4,6 @@ import CeritaSection from "./components/sections/CeritaSection";
 import ExploreSection from "./components/sections/ExploreSection";
 import HeroSection from "./components/sections/HeroSection";
 import MapsSection from "./components/sections/MapsSection";
-import OpenStreetMapSection from "./components/sections/OpenStreetMap";
 import TestimoniSection from "./components/sections/TestimoniSection";
 
 export default function Home() {
@@ -13,7 +12,6 @@ export default function Home() {
     <HeroSection/>
     <CategorySection/>
     <ExploreSection/>
-    {/* <OpenStreetMapSection/> */}
     <MapsSection/>
     <CeritaSection/>
     <TestimoniSection/>

@@ -1,29 +1,68 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { motion,cubicBezier } from 'framer-motion';
+import { motion, AnimatePresence, cubicBezier } from 'framer-motion';
 import { Search, Star } from 'lucide-react';
 
-interface Review {
+interface ExploreItem {
   id: number;
-  avatar: string;
-  rating: number;
-  text: string;
-}
-
-interface FoodItem {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  type: 'vendor' | 'food';
+  vendorName: string;
+  vendorDescription: string;
+  vendorImage: string;
+  reviewAvatar: string;
+  reviewRating: number;
+  reviewText: string;
+  productName: string;
+  productDescription: string;
+  productImage: string;
 }
 
 const ExploreSection = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [isVisible, setIsVisible] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  const exploreItems: ExploreItem[] = [
+    {
+      id: 1,
+      vendorName: 'AYAM GEPREK 77',
+      vendorDescription: 'Ayam Geprek 77 menyajikan ayam geprek dengan cita rasa pedas yang menggugah selera, dipadukan dengan sambal spesial yang khas dan lezat.',
+      vendorImage: '/assets/images/umkm/ayam_geprek_77.webp',
+      reviewAvatar: '/assets/images/avatar/female1.png',
+      reviewRating: 4.5,
+      reviewText: 'Pelayanan cepat dan makanan yang disajikan sangat lezat. Saya sangat merekomendasikan Ayam Geprek 77 kepada siapa saja yang mencari hidangan pedas yang autentik!',
+      productName: 'Ayam Geprek Dada',
+      productDescription: 'Nikmati sensasi pedas dan gurih dari Ayam Geprek Dada yang renyah, disajikan dengan sambal spesial khas kami.',
+      productImage: '/assets/images/umkm/produk.webp'
+    },
+    {
+      id: 2,
+      vendorName: 'WARUNG NASI PECEL BU TINI',
+      vendorDescription: 'Warung legendaris dengan resep pecel turun temurun lebih dari 30 tahun. Bumbu kacang yang khas dan sayuran segar setiap hari.',
+      vendorImage: '/assets/images/umkm/warung_pecel.webp',
+      reviewAvatar: '/assets/images/avatar/male2.png',
+      reviewRating: 4.8,
+      reviewText: 'Pecel terenak di kota! Bumbu kacangnya pas, tidak terlalu manis. Harga terjangkau dan porsi melimpah. Wajib coba!',
+      productName: 'Nasi Pecel Komplit',
+      productDescription: 'Nasi hangat dengan sayuran segar, telur, tempe, dan bumbu pecel khas yang menggoda selera.',
+      productImage: '/assets/images/umkm/nasi_pecel.webp'
+    },
+    {
+      id: 3,
+      vendorName: 'KEDAI KOPI NUSANTARA',
+      vendorDescription: 'Kedai kopi dengan biji kopi pilihan dari berbagai daerah Indonesia. Suasana nyaman untuk kerja atau ngobrol santai.',
+      vendorImage: '/assets/images/umkm/kedai_kopi.webp',
+      reviewAvatar: '/assets/images/avatar/female3.png',
+      reviewRating: 4.7,
+      reviewText: 'Kopi nya enak banget! Barista nya ramah dan tempatnya instagramable. Cocok buat nongkrong atau meeting.',
+      productName: 'Kopi Susu Gula Aren',
+      productDescription: 'Perpaduan sempurna espresso Indonesia dengan susu segar dan gula aren organik. Manis alami dan creamy.',
+      productImage: '/assets/images/umkm/kopi_susu.webp'
+    }
+  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -42,24 +81,30 @@ const ExploreSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  const foodItems: FoodItem[] = [
-    {
-      id: 1,
-      name: 'AYAM GEPREK 77',
-      description: 'Ayam Geprek 77 menyajikan ayam geprek dengan cita rasa pedas yang menggugah selera, dipadukan dengan sambal spesial yang khas dan lezat.',
-      image: '/assets/images/umkm/ayam_geprek_77.webp',
-      type: 'vendor'
-    }
-  ];
+  // Auto-play functionality
+  const nextSlide = useCallback(() => {
+    setDirection(1);
+    setCurrentIndex((prev) => (prev + 1) % exploreItems.length);
+  }, [exploreItems.length]);
 
-  const reviews: Review[] = [
-    {
-      id: 1,
-      avatar: '/assets/images/avatar/female1.png',
-      rating: 4.5,
-      text: 'Pelayanan cepat dan makanan yang disajikan sangat lezat. Saya sangat merekomendasikan Ayam Geprek 77 kepada siapa saja yang mencari hidangan pedas yang autentik!'
-    }
-  ];
+  const goToSlide = useCallback(
+    (index: number) => {
+      setDirection(index > currentIndex ? 1 : -1);
+      setCurrentIndex(index);
+    },
+    [currentIndex]
+  );
+
+  // Auto-play effect
+  useEffect(() => {
+    if (!isVisible) return;
+
+    const interval = setInterval(() => {
+      nextSlide();
+    }, 5000); // Change every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [isVisible, nextSlide]);
 
   // Animation variants
   const containerVariants = {
@@ -97,45 +142,33 @@ const ExploreSection = () => {
     }
   };
 
-  const leftCardVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 1200 : -1200,
+      opacity: 0,
+    }),
+    center: {
       x: 0,
-      transition: {
-        duration: 0.8,
-        ease: cubicBezier(0.6, 0.05, 0.01, 0.9)
-      }
-    }
-  };
-
-  const rightColumnVariants = {
-    hidden: { opacity: 0, x: 50 },
-    visible: {
       opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.8,
-        ease: cubicBezier(0.6, 0.05, 0.01, 0.9),
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
       transition: {
         duration: 0.6,
-        ease: cubicBezier(0.6, 0.05, 0.01, 0.9)
-      }
-    }
+        ease: cubicBezier(0.6, 0.05, 0.01, 0.9),
+      },
+    },
+    exit: (direction: number) => ({
+      x: direction > 0 ? -1200 : 1200,
+      opacity: 0,
+      transition: {
+        duration: 0.6,
+        ease: cubicBezier(0.6, 0.05, 0.01, 0.9),
+      },
+    }),
   };
 
+  const currentItem = exploreItems[currentIndex];
+
   return (
-    <section ref={sectionRef} className="py-16 md:py-24">
+    <section ref={sectionRef} className="py-16 md:py-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <motion.div
           initial="hidden"
@@ -171,122 +204,130 @@ const ExploreSection = () => {
             </motion.div>
           </div>
 
-          {/* Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            {/* Left Card - Vendor/Restaurant */}
-            <motion.div
-              variants={leftCardVariants}
-              whileHover={{ y: -8 }}
-              transition={{ duration: 0.3 }}
-              className="relative rounded-3xl overflow-hidden shadow-lg group cursor-pointer"
-            >
-              <div className="relative h-[600px] lg:h-[700px] w-full">
-                <Image
-                  src={foodItems[0].image}
-                  alt={foodItems[0].name}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                
-                {/* Content Overlay */}
+          {/* Slider Container */}
+          <div className="relative">
+            <div className="relative min-h-[700px] lg:min-h-[750px]">
+              <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                  className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white"
+                  key={currentIndex}
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  className="absolute inset-0"
                 >
-                  <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
-                    {foodItems[0].name}
-                  </h2>
-                  <p className="text-white/90 mb-6 line-clamp-3 text-base md:text-lg">
-                    {foodItems[0].description}
-                  </p>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="bg-white text-gray-900 px-8 py-3 rounded-full font-semibold hover:bg-orange-50 transition-colors shadow-lg"
-                  >
-                    Lihat Detail
-                  </motion.button>
-                </motion.div>
-              </div>
-            </motion.div>
+                  {/* Content Grid */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 h-full">
+                    {/* Left Card - Vendor/Restaurant */}
+                    <motion.div
+                      whileHover={{ y: -8 }}
+                      transition={{ duration: 0.3 }}
+                      className="relative rounded-3xl overflow-hidden shadow-lg group cursor-pointer"
+                    >
+                      <div className="relative h-[600px] lg:h-full w-full">
+                        <Image
+                          src={currentItem.vendorImage}
+                          alt={currentItem.vendorName}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                        
+                        {/* Content Overlay */}
+                        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                          <h2 className="text-4xl md:text-5xl font-bold mb-4 leading-tight">
+                            {currentItem.vendorName}
+                          </h2>
+                          <p className="text-white/90 mb-6 line-clamp-3 text-base md:text-lg">
+                            {currentItem.vendorDescription}
+                          </p>
+                          <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.98 }}
+                            className="bg-white text-gray-900 px-8 py-3 rounded-full font-semibold hover:bg-orange-50 transition-colors shadow-lg"
+                          >
+                            Lihat Detail
+                          </motion.button>
+                        </div>
+                      </div>
+                    </motion.div>
 
-            {/* Right Column */}
-            <motion.div
-              variants={rightColumnVariants}
-              className="flex flex-col gap-6"
-            >
-              {/* Review Card */}
-              <motion.div
-                variants={cardVariants}
-                whileHover={{ y: -5 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white rounded-3xl shadow-lg p-6 md:p-8 flex items-start gap-4 border border-gray-100"
-              >
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={isVisible ? { scale: 1 } : { scale: 0 }}
-                  transition={{ 
-                    duration: 0.5, 
-                    delay: 0.8,
-                    type: "spring",
-                    stiffness: 200
-                  }}
-                  className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden shrink-0 border-2 border-orange-200"
-                >
-                  <Image
-                    src={reviews[0].avatar}
-                    alt="User avatar"
-                    fill
-                    className="object-cover"
-                  />
-                </motion.div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Star className="w-5 h-5 fill-orange-400 text-orange-400" />
-                    <span className="font-bold text-gray-900 text-lg">
-                      {reviews[0].rating}
-                    </span>
+                    {/* Right Column */}
+                    <div className="flex flex-col gap-6">
+                      {/* Review Card */}
+                      <motion.div
+                        whileHover={{ y: -5 }}
+                        transition={{ duration: 0.3 }}
+                        className="bg-white rounded-3xl shadow-lg p-6 md:p-8 flex items-start gap-4 border border-gray-100"
+                      >
+                        <div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden shrink-0 border-2 border-orange-200">
+                          <Image
+                            src={currentItem.reviewAvatar}
+                            alt="User avatar"
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-3">
+                            <Star className="w-5 h-5 fill-orange-400 text-orange-400" />
+                            <span className="font-bold text-gray-900 text-lg">
+                              {currentItem.reviewRating}
+                            </span>
+                          </div>
+                          <p className="text-gray-700 leading-relaxed text-sm md:text-base">
+                            &quot;{currentItem.reviewText}&quot;
+                          </p>
+                        </div>
+                      </motion.div>
+
+                      {/* Food Image Card */}
+                      <motion.div
+                        whileHover={{ y: -8 }}
+                        transition={{ duration: 0.3 }}
+                        className="relative rounded-3xl overflow-hidden shadow-lg flex-1 min-h-[400px] group cursor-pointer"
+                      >
+                        <Image
+                          src={currentItem.productImage}
+                          alt={currentItem.productName}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                        
+                        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                          <h3 className="text-2xl md:text-3xl font-bold mb-2">
+                            {currentItem.productName}
+                          </h3>
+                          <p className="text-white/90 text-sm md:text-base">
+                            {currentItem.productDescription}
+                          </p>
+                        </div>
+                      </motion.div>
+                    </div>
                   </div>
-                  <p className="text-gray-700 leading-relaxed text-sm md:text-base">
-                    &quot;{reviews[0].text}&quot;
-                  </p>
-                </div>
-              </motion.div>
-
-              {/* Food Image Card */}
-              <motion.div
-                variants={cardVariants}
-                whileHover={{ y: -8 }}
-                transition={{ duration: 0.3 }}
-                className="relative rounded-3xl overflow-hidden shadow-lg h-[400px] md:h-[500px] group cursor-pointer"
-              >
-                <Image
-                  src="/assets/images/umkm/produk.webp"
-                  alt="Ayam Geprek Dish"
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.8, delay: 1 }}
-                  className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white"
-                >
-                  <h3 className="text-2xl md:text-3xl font-bold mb-2">
-                    Ayam Geprek Dada
-                  </h3>
-                <p className="text-white/90 text-sm md:text-base">
-                  Nikmati sensasi pedas dan gurih dari Ayam Geprek Dada yang renyah,
-                  disajikan dengan sambal spesial khas kami.
-                </p>
                 </motion.div>
-              </motion.div>
-            </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Dot Indicators */}
+            <div className="flex items-center justify-center gap-2 mt-8">
+              {exploreItems.map((_, index) => (
+                <motion.button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    index === currentIndex
+                      ? "w-12 bg-orange-500"
+                      : "w-2 bg-gray-300 hover:bg-gray-400"
+                  }`}
+                  aria-label={`Go to slide ${index + 1}`}
+                />
+              ))}
+            </div>
           </div>
         </motion.div>
       </div>
