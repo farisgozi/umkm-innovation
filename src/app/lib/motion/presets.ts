@@ -8,6 +8,9 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// =======================
+// ✦ Transition Presets ✦
+// =======================
 export const transitionEase: Transition = {
   duration: 0.9,
   ease: [0.25, 0.1, 0.25, 1],
@@ -18,6 +21,9 @@ export const slowEase: Transition = {
   ease: [0.45, 0, 0.55, 1],
 };
 
+// =======================
+// ✦ Motion Variants ✦
+// =======================
 export const fadeIn: Variants = {
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: transitionEase },
@@ -42,6 +48,9 @@ export const slideFromRight: Variants = {
   show: { opacity: 1, x: 0, transition: slowEase },
 };
 
+// =======================
+// ✦ Kinetic Text Reveal ✦
+// =======================
 export const textReveal: Variants = {
   hidden: { y: "100%", opacity: 0 },
   show: (i = 1) => ({
@@ -51,8 +60,11 @@ export const textReveal: Variants = {
   }),
 };
 
+// =======================
+// ✦ Parallax Zoom Motion ✦
+// =======================
 export const zoomParallax: Variants = {
-  hidden: { scale: 1.2, opacity: 0 },
+  hidden: { scale: 1.15, opacity: 0 },
   show: {
     scale: 1,
     opacity: 1,
@@ -60,6 +72,9 @@ export const zoomParallax: Variants = {
   },
 };
 
+// =======================
+// ✦ Container Stagger ✦
+// =======================
 export const staggerContainer: Variants = {
   hidden: {},
   show: {
@@ -70,6 +85,9 @@ export const staggerContainer: Variants = {
   },
 };
 
+// =======================
+// ✦ Hover Animation ✦
+// =======================
 export const bentoHover = {
   rest: { scale: 1, rotate: 0 },
   hover: {
@@ -79,6 +97,9 @@ export const bentoHover = {
   },
 };
 
+// =======================
+// ✦ GSAP Parallax Helper ✦
+// =======================
 export const gsapParallax = (target: string, options = {}) => {
   if (typeof window === "undefined") return;
 

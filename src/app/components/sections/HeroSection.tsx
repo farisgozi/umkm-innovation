@@ -2,20 +2,22 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion, useInView, cubicBezier } from "framer-motion";
+import { motion, cubicBezier } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ChevronDown } from "lucide-react";
+import { useLenis } from "lenis/react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
-  const inView = useInView(containerRef, { once: true, margin: "-10%" });
+  const lenis = useLenis(); 
+  const heading = ["Temukan UMKM", "Keren di", "Sekitarmu"];
 
   useEffect(() => {
-    if (!bgRef.current) return;
+    if (!bgRef.current || !lenis) return;
 
     const ctx = gsap.context(() => {
       gsap.to(bgRef.current, {
@@ -24,17 +26,16 @@ export default function HeroSection() {
         ease: "power1.out",
         scrollTrigger: {
           trigger: bgRef.current,
+          scroller: document.body,
           start: "top top",
           end: "bottom top",
           scrub: true,
         },
       });
-    });
+    }, containerRef);
 
     return () => ctx.revert();
-  }, []);
-
-  const heading = ["Temukan UMKM", "Keren di", "Sekitarmu"];
+  }, [lenis]);
 
   const kineticVariants = {
     hidden: { opacity: 0, y: 60 },
@@ -78,7 +79,7 @@ export default function HeroSection() {
               custom={i}
               variants={kineticVariants}
               initial="hidden"
-              animate={inView && "visible"}
+              animate="visible"
               className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight ${
                 i === 1 ? "text-[#FF9E6B]" : "text-[#FFF8F3]"
               }`}
@@ -89,7 +90,7 @@ export default function HeroSection() {
 
           <motion.p
             initial={{ opacity: 0, y: 40 }}
-            animate={inView && { opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
             className="text-lg md:text-xl text-[#FFF8F3]/90 leading-relaxed max-w-2xl"
           >
@@ -100,7 +101,7 @@ export default function HeroSection() {
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={inView && { opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2, duration: 0.7 }}
             className="mt-8 flex flex-wrap gap-4 items-center"
           >
@@ -131,7 +132,7 @@ export default function HeroSection() {
           {/* Scroll Hint */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
-            animate={inView && { opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.6 }}
             className="mt-16 flex items-center gap-3 text-[#FFF8F3]/70"
           >
@@ -147,7 +148,7 @@ export default function HeroSection() {
           </motion.div>
         </div>
       </div>
-
+      
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

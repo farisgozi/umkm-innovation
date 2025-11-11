@@ -1,51 +1,52 @@
 "use client";
 
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLenis } from 'lenis/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function ScrollTriggerProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-    useEffect(() => {
-        const lenis = document.querySelector("html")?.lenis;
-        if (!lenis) return;
+interface ScrollTriggerProviderProps {
+  children: ReactNode;
+}
 
-        ScrollTrigger.scrollerProxy(document.body, {
-            scrollTop(value?: number) {
-            if (typeof value === "number") {
-                lenis.scrollTo(value);
-            } else {
-                return lenis.scroll.current;
-            }
-            },
-            getBoundingClientRect() {
-            return {
-                top: 0,
-                left: 0,
-                width: window.innerWidth,
-                height: window.innerHeight,
-            };
-            },
-        });
+export default function ScrollTriggerProvider({ children }: ScrollTriggerProviderProps) {
+  const lenis = useLenis();
 
-        const update = () => {
-            ScrollTrigger.update();
+  useEffect(() => {
+    if (!lenis) return;
+
+    // Scroller Proxy untuk GSAP + Lenis
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value?: number) {
+        if (typeof value === "number") {
+          lenis.scrollTo(value);
+        } else {
+          return lenis.scroll;
+        }
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
         };
+      },
+    });
 
-        lenis.on("scroll", update);
-        ScrollTrigger.addEventListener("refresh", update);
-        ScrollTrigger.refresh();
+    const update = () => ScrollTrigger.update();
 
-        return () => {
-            ScrollTrigger.removeEventListener("refresh", update);
-            lenis.off("scroll", update);
-        };
-    }, []);
+    lenis.on("scroll", update);
+    ScrollTrigger.addEventListener("refresh", update);
+    ScrollTrigger.refresh();
+
+    return () => {
+      ScrollTrigger.removeEventListener("refresh", update);
+      lenis.off("scroll", update);
+    };
+  }, [lenis]);
 
   return <>{children}</>;
 }
