@@ -3,6 +3,7 @@ import { dmSans, clashDisplay } from "../fonts/fonts";
 import "./globals.css";
 import Navbar from "./components/layouts/Navbar";
 import MotionFooter from "./components/layouts/MotionFooter";
+import ClientWrapper from "./motion/providers/ClientWrapper";
 
 export const metadata: Metadata = {
   title: "UMKM Kita - Platform Bisnis Lokal",
@@ -22,18 +23,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={`${clashDisplay.variable} ${dmSans.variable} scroll-smooth`}>
+    <html lang="id" className={`${clashDisplay.variable} ${dmSans.variable}`}>
       <body className="antialiased font-sans">
-        {/* Navbar */}
-        <Navbar />
-        
-        {/* Main Content */}
-        <main className="flex flex-col ">
+       <ClientWrapper>
+          <Navbar />
           {children}
-        </main>
-        
-        {/* Footer */}
-        <MotionFooter />
+          <MotionFooter />
+        </ClientWrapper>
       </body>
     </html>
   );

@@ -168,7 +168,7 @@ const ExploreSection = () => {
   const currentItem = exploreItems[currentIndex];
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 bg-white overflow-hidden">
+    <section ref={sectionRef} className="py-16 md:py-24 overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <motion.div
           initial="hidden"
