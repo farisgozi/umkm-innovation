@@ -17,28 +17,31 @@ export default function ScrollTriggerProvider({ children }: ScrollTriggerProvide
   useEffect(() => {
     if (!lenis) return;
 
-    // Scroller Proxy untuk GSAP + Lenis
+    // Sinkronisasi Lenis dengan GSAP ScrollTrigger
     ScrollTrigger.scrollerProxy(document.body, {
       scrollTop(value?: number) {
         if (typeof value === "number") {
-          lenis.scrollTo(value);
+          lenis.scrollTo(value); // scrollTo Lenis
         } else {
-          return lenis.scroll;
+          return lenis.scroll; // current scroll
         }
       },
-      getBoundingClientRect() {
-        return {
-          top: 0,
-          left: 0,
-          width: window.innerWidth,
-          height: window.innerHeight,
-        };
-      },
+      getBoundingClientRect: () => ({
+        top: 0,
+        left: 0,
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }),
+      // optional: pinType "transform" untuk mobile touch
+      pinType: document.body.style.transform ? "transform" : "fixed",
     });
 
     const update = () => ScrollTrigger.update();
 
+    // Update GSAP saat Lenis scroll
     lenis.on("scroll", update);
+
+    // Update saat refresh ScrollTrigger
     ScrollTrigger.addEventListener("refresh", update);
     ScrollTrigger.refresh();
 

@@ -13,7 +13,7 @@ gsap.registerPlugin(ScrollTrigger);
 export default function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
-  const lenis = useLenis(); 
+  const lenis = useLenis();
   const heading = ["Temukan UMKM", "Keren di", "Sekitarmu"];
 
   useEffect(() => {
@@ -53,8 +53,9 @@ export default function HeroSection() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen flex items-center overflow-hidden"
+      className="relative flex items-center overflow-hidden min-h-screen"
     >
+      {/* Background */}
       <div
         ref={bgRef}
         className="absolute inset-0 -z-10 will-change-transform"
@@ -79,7 +80,8 @@ export default function HeroSection() {
               custom={i}
               variants={kineticVariants}
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
+              viewport={{ once: true }}
               className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight ${
                 i === 1 ? "text-[#FF9E6B]" : "text-[#FFF8F3]"
               }`}
@@ -99,6 +101,7 @@ export default function HeroSection() {
             balik setiap karya lokal.
           </motion.p>
 
+          {/* CTA Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -107,21 +110,17 @@ export default function HeroSection() {
           >
             <motion.a
               href="#explore"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 12px 40px rgba(249,115,22,0.4)",
-              }}
+              whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(249,115,22,0.4)" }}
               whileTap={{ scale: 0.97 }}
+              animate={{ scale: [1, 1.02, 1] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               className="inline-flex items-center font-bold rounded-full bg-[#FF9E6B] hover:bg-[#FF885B] text-[#FFF8F3] px-8 py-4 transition-all duration-300 shadow-lg"
             >
               Jelajahi Sekarang
             </motion.a>
             <motion.a
               href="#about"
-              whileHover={{
-                scale: 1.05,
-                backgroundColor: "rgba(255,248,243,0.2)",
-              }}
+              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,248,243,0.2)" }}
               whileTap={{ scale: 0.97 }}
               className="inline-flex items-center font-bold text-[#FFF8F3] px-8 py-4 rounded-full bg-[#FFF8F3]/10 backdrop-blur-sm border border-[#FFF8F3]/30 transition-all duration-300"
             >
@@ -148,22 +147,24 @@ export default function HeroSection() {
           </motion.div>
         </div>
       </div>
-      
+
+      {/* Chevron Down */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={{ opacity: 1, y: [0, 10, 0] }}
         transition={{
-          duration: 0.8,
+          duration: 1.2,
           delay: 2,
           repeat: Infinity,
-          repeatType: "reverse",
-          repeatDelay: 0.6,
+          repeatType: "loop",
+          ease: "easeInOut",
         }}
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
       >
         <ChevronDown className="w-6 h-6 text-[#FFF8F3]/80" />
       </motion.div>
 
+      {/* Ambient Circles */}
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}

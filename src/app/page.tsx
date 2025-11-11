@@ -1,3 +1,5 @@
+"use client";
+
 import AboutSection from "./components/sections/AboutSection";
 import CategorySection from "./components/sections/CategorySection";
 import CeritaSection from "./components/sections/CeritaSection";

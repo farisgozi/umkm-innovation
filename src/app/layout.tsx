@@ -7,7 +7,8 @@ import ClientWrapper from "./motion/providers/ClientWrapper";
 
 export const metadata: Metadata = {
   title: "UMKM Kita - Platform Bisnis Lokal",
-  description: "Temukan dan dukung UMKM di sekitar Anda. Dari warung kopi legendaris hingga usaha kreatif, semua ada di satu tempat.",
+  description:
+    "Temukan dan dukung UMKM di sekitar Anda. Dari warung kopi legendaris hingga usaha kreatif, semua ada di satu tempat.",
   keywords: "UMKM, bisnis lokal, warung, kedai, usaha kecil, Indonesia",
   authors: [{ name: "UMKM Kita" }],
   openGraph: {
@@ -25,9 +26,11 @@ export default function RootLayout({
   return (
     <html lang="id" className={`${clashDisplay.variable} ${dmSans.variable}`}>
       <body className="antialiased font-sans">
-       <ClientWrapper>
+        <ClientWrapper pageKey="default">
           <Navbar />
-          {children}
+
+          <main className="flex flex-col min-h-screen">{children}</main>
+
           <MotionFooter />
         </ClientWrapper>
       </body>
