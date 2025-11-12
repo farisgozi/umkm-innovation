@@ -11,15 +11,13 @@ import MapsSection from "./components/sections/MapsSection";
 export default function Home() {
   return (
     <div className="relative">
-
-      {/* Cinematic Motion Sections */}
       <HeroSection />
       <CategorySection />
       <ExploreSection />
       <MapsSection />
       <CeritaSection />
-      <TestimoniSection />
-      <AboutSection />
+      <TestimoniSection  />
+      <AboutSection/>
     </div>
   );
 }

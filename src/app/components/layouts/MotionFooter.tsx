@@ -51,7 +51,8 @@ export default function MotionFooter() {
   return (
     <footer
       ref={footerRef}
-      className="relative overflow-hidden bg-gradient-to-t from-[#FF9E6B]/70 via-[#FFD194]/40 to-transparent"
+      id="global-footer"
+      className="relative overflow-hidden"
     >
       <div className="absolute inset-0 -z-10">
         <svg

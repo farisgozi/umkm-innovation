@@ -27,7 +27,7 @@ export default function HeroSection() {
         scrollTrigger: {
           trigger: bgRef.current,
           scroller: document.body,
-          start: "top top",
+          start: "top bott",
           end: "bottom top",
           scrub: true,
         },

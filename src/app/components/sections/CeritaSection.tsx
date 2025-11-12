@@ -144,8 +144,7 @@ export default function CeritaSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative w-full min-h-screen py-20 px-4 md:px-8 lg:px-16 
-      overflow-hidden bg-gradient-to-br from-[#FFF8F3] via-[#FFD194]/30 to-[#FF9E6B]/10"
+      className="relative w-full min-h-screen py-20 px-4 md:px-8 lg:px-16 overflow-hidden"
       aria-labelledby="cerita-heading"
     >
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
@@ -216,6 +215,7 @@ export default function CeritaSection() {
                 className="w-10 h-1.5 bg-[#FF885B] rounded-full origin-left"
               />
           </div>
+          
           <motion.div
             variants={sliderVariant}
             initial="hidden"
@@ -229,7 +229,7 @@ export default function CeritaSection() {
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 exit={{ opacity: 0, x: -80, scale: 0.95 }}
                 transition={{ duration: 0.6, ease }}
-                className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-md"
+                className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100"
               >
                 <div className="flex items-start gap-4 mb-4">
                   <motion.div
@@ -288,6 +288,7 @@ export default function CeritaSection() {
           </motion.button>
         </div>
       </div>
+
       <motion.div
         animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}

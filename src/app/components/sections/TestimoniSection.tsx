@@ -106,7 +106,6 @@ export default function TestimoniSection() {
     return () => clearInterval(timer);
   }, [isVisible, currentIndex, testimonials.length, goToTestimonial]);
 
-  // === Parallax Background ===
   useEffect(() => {
     if (!bgRef.current || !sectionRef.current) return;
 
@@ -126,7 +125,6 @@ export default function TestimoniSection() {
     return () => ctx.revert();
   }, []);
 
-  // === Animation Variants ===
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -184,7 +182,7 @@ export default function TestimoniSection() {
       {/* === Parallax Background === */}
       <div
         ref={bgRef}
-        className="absolute inset-0 bg-gradient-to-b from-[#FFD194]/40 via-[#FFF8F3]/70 to-white pointer-events-none"
+        className="absolute inset-0 bg-gradient-to-br from-[#FFF8F3] via-[#FFD194]/30 to-[#FF9E6B]/10 pointer-events-none"
       />
 
       <div className="relative max-w-6xl mx-auto">

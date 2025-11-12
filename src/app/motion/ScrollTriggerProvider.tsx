@@ -1,11 +1,21 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { createContext, useContext, ReactNode, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
 
 gsap.registerPlugin(ScrollTrigger);
+
+interface ScrollTriggerContextValue {
+  timeline: gsap.core.Timeline | null;
+}
+
+const ScrollTriggerContext = createContext<ScrollTriggerContextValue>({
+  timeline: null,
+});
+
+export const useScrollTriggerTimeline = () => useContext(ScrollTriggerContext);
 
 interface ScrollTriggerProviderProps {
   children: ReactNode;
@@ -13,6 +23,7 @@ interface ScrollTriggerProviderProps {
 
 export default function ScrollTriggerProvider({ children }: ScrollTriggerProviderProps) {
   const lenis = useLenis();
+  const timeline = gsap.timeline({ defaults: { ease: "power2.inOut", duration: 0.6 } });
 
   useEffect(() => {
     if (!lenis) return;
@@ -46,5 +57,9 @@ export default function ScrollTriggerProvider({ children }: ScrollTriggerProvide
     };
   }, [lenis]);
 
-  return <>{children}</>;
+  return (
+    <ScrollTriggerContext.Provider value={{ timeline }}>
+      {children}
+    </ScrollTriggerContext.Provider>
+  );
 }

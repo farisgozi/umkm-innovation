@@ -27,20 +27,17 @@ export default function RootLayout({
     <html
       lang="id"
       className={`${clashDisplay.variable} ${dmSans.variable}`}
-      suppressHydrationWarning
+      suppressHydrationWarning={true}
     >
-      <body className="antialiased font-sans overflow-x-hidden">
-        {/* ✅ ClientWrapper = Lenis, ScrollTrigger, Smooth Motion Context */}
+      <body 
+        className="antialiased font-sans overflow-x-hidden"
+        suppressHydrationWarning={true}
+        >
         <ClientWrapper pageKey="home">
-          {/* Navbar Sticky dengan motion */}
           <Navbar />
-
-          {/* Semua section akan smooth-scroll */}
           <main className="flex flex-col min-h-screen relative z-10">
             {children}
           </main>
-
-          {/* Motion Footer dengan wave animation sinkron */}
           <MotionFooter />
         </ClientWrapper>
       </body>
