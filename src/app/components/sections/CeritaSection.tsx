@@ -1,9 +1,13 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import Image from 'next/image';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence, cubicBezier } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLenis } from "lenis/react";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface Story {
   id: number;
@@ -13,377 +17,287 @@ interface Story {
   image: string;
 }
 
-const CeritaSection = () => {
+export default function CeritaSection() {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const imageRef = useRef<HTMLDivElement | null>(null);
+  const badgeRef = useRef<HTMLDivElement | null>(null);
   const [currentStory, setCurrentStory] = useState(0);
-  const [scrollY, setScrollY] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.2 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (sectionRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect();
-        const scrollPosition = window.scrollY;
-        
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-          setScrollY(scrollPosition);
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const lenis = useLenis();
 
   const stories: Story[] = [
     {
       id: 1,
       name: "Ibu Siti",
       business: "Warung Nasi Pecel",
-      story: "Dari dapur rumah menjadi warung favorit warga. 15 tahun melayani dengan bumbu resep turun temurun.",
-      image: "/assets/images/avatar/female1.png"
+      story:
+        "Dari dapur rumah menjadi warung favorit warga. 15 tahun melayani dengan bumbu resep turun temurun.",
+      image: "/assets/images/avatar/female1.png",
     },
     {
       id: 2,
       name: "Pak Budi",
       business: "Kerajinan Bambu",
-      story: "Mengubah bambu menjadi seni. Produk lokal yang kini merambah pasar internasional.",
-      image: "/assets/images/avatar/male1.png"
+      story:
+        "Mengubah bambu menjadi seni. Produk lokal yang kini merambah pasar internasional.",
+      image: "/assets/images/avatar/male1.png",
     },
     {
       id: 3,
       name: "Mbak Dewi",
       business: "Kopi Artisan",
-      story: "Dari barista sampingan menjadi coffee shop dengan 3 cabang. Mimpi yang terwujud dengan ketekunan.",
-      image: "/assets/images/avatar/female3.png"
-    }
+      story:
+        "Dari barista sampingan menjadi coffee shop dengan 3 cabang. Mimpi yang terwujud dengan ketekunan.",
+      image: "/assets/images/avatar/female3.png",
+    },
   ];
 
-  const nextStory = () => {
-    setCurrentStory((prev) => (prev + 1) % stories.length);
-  };
+  useEffect(() => {
+    if (!isVisible) return;
+    const interval = setInterval(() => {
+      setCurrentStory((prev) => (prev + 1) % stories.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isVisible, stories.length]);
 
-  const prevStory = () => {
-    setCurrentStory((prev) => (prev - 1 + stories.length) % stories.length);
-  };
+  const ease = cubicBezier(0.77, 0, 0.175, 1);
 
-  // Animation variants
-  const headingVariants = (delay: number) => ({
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
+  useEffect(() => {
+    if (!sectionRef.current || !imageRef.current) return;
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top 80%",
+        onEnter: () => setIsVisible(true),
+      });
+
+      gsap.to(imageRef.current, {
+        yPercent: 10,
+        scale: 1.08,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      gsap.from(badgeRef.current, {
+        y: 30,
+        opacity: 0,
         duration: 0.8,
-        delay: delay,
-        ease: [0.6, 0.05, 0.01, 0.9] as [number, number, number, number]
-      }
-    }
+        delay: 0.3,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 85%",
+        },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, [lenis]);
+
+  const headingVariant = (delay = 0) => ({
+    hidden: { opacity: 0, y: 40 },
+    visible: { 
+      opacity: 1, y: 0, 
+      transition: { 
+        duration: 0.9, 
+        delay: delay, 
+        ease: cubicBezier(0.6, 0.05, 0.01, 0.9)
+      } 
+    },
   });
 
   const lineVariants = {
-    hidden: { width: 0, opacity: 0 },
+    hidden: { 
+      scaleX: 0, 
+      opacity: 0 
+    },
     visible: (delay: number) => ({
-      width: "auto",
+      scaleX: 1,
       opacity: 1,
       transition: {
         duration: 0.6,
         delay: delay,
-        ease: [0.6, 0.05, 0.01, 0.9] as [number, number, number, number]
-      }
-    })
+        ease: cubicBezier(0.6, 0.05, 0.01, 0.9),
+      },
+    }),
   };
 
-  const sliderVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.8,
-        delay: 1.2,
-        ease: [0.6, 0.05, 0.01, 0.9] as [number, number, number, number]
-      }
-    }
+  const sliderVariant = {
+    hidden: { 
+      opacity: 0, 
+      y: 30 },
+    visible: { 
+      opacity: 1, y: 0, 
+      transition: { 
+        duration: 0.8, 
+        delay: 1.1, 
+        ease: cubicBezier(0.6, 0.05, 0.01, 0.9)
+        } 
+      },
   };
 
-  const ctaVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-        delay: 1.4,
-        ease: [0.6, 0.05, 0.01, 0.9] as [number, number, number, number]
-      }
-    }
-  };
-  
   return (
-    <section 
+    <section
       ref={sectionRef}
-      className="relative w-full min-h-screen py-20 px-4 md:px-8 lg:px-16 overflow-hidden bg-linear-to-br from-gray-50 to-orange-50"
+      className="relative w-full min-h-screen py-20 px-4 md:px-8 lg:px-16 
+      overflow-hidden bg-gradient-to-br from-[#FFF8F3] via-[#FFD194]/30 to-[#FF9E6B]/10"
+      aria-labelledby="cerita-heading"
     >
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[80vh]">
-          
-          {/* Left Side - Parallax Image */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isVisible ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
-            transition={{ duration: 0.8, ease: [0.6, 0.05, 0.01, 0.9] }}
-            className="relative h-[500px] lg:h-[700px] rounded-3xl overflow-hidden shadow-2xl"
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[80vh]">
+        <div className="relative h-[480px] md:h-[600px] lg:h-[720px] rounded-3xl overflow-hidden shadow-2xl">
+          <div ref={imageRef} className="absolute inset-0 will-change-transform">
+            <Image
+              src="/assets/images/umkm/cerita.jpg"
+              alt="UMKM Story"
+              fill
+              className="object-cover scale-110"
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+          </div>
+          <div
+            ref={badgeRef}
+            className="absolute bottom-6 left-1/2 lg:left-8 -translate-x-1/2 lg:translate-x-0 
+            bg-[#FFF8F3]/90 backdrop-blur-md rounded-2xl px-6 py-4 shadow-lg"
           >
-            <motion.div 
-              className="absolute inset-0"
-              style={{
-                transition: 'transform 0.1s ease-out'
-              }}
-            >
-              <Image
-                src="/assets/images/umkm/cerita.jpg"
-                alt="UMKM Story"
-                fill
-                className="object-cover scale-110"
-                priority
-              />
-              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent" />
-            </motion.div>
+            <p className="text-[#FF885B] font-display font-bold text-sm mb-1 text-center lg:text-left">
+              📖 CERITA LOKAL
+            </p>
+            <p className="text-[#2E2E2E] text-xs font-semibold text-center lg:text-left">
+              Lebih dari {stories.length}00+ kisah inspiratif
+            </p>
+          </div>
+        </div>
 
-            {/* Floating Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="absolute bottom-8 left-8 bg-[#FFF8F3] backdrop-blur-sm rounded-2xl px-6 py-4 shadow-xl z-10"
-            >
-              <p className="text-[#FF885B] font-display font-bold text-sm mb-1">📖 CERITA LOKAL</p>
-              <p className="text-[#2E2E2E] text-xs font-semibold">Lebih dari {stories.length}00+ kisah inspiratif</p>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Side - Kinetic Typography & Content */}
-          <div className="space-y-8 lg:space-y-12">
-            
-            {/* Kinetic Typography with Staggered Reveal */}
-            <div className="space-y-4">
-              <motion.div
-                variants={headingVariants(0.3)}
-                initial="hidden"
-                animate={isVisible ? "visible" : "hidden"}
-                className="overflow-hidden"
-              >
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#2E2E2E] leading-tight">
-                  Setiap produk
-                </h2>
-              </motion.div>
-
-              <motion.div
-                variants={headingVariants(0.5)}
-                initial="hidden"
-                animate={isVisible ? "visible" : "hidden"}
-                className="overflow-hidden"
-              >
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#FF885B] leading-tight">
-                  punya cerita.
-                </h2>
-              </motion.div>
-
-              <motion.div
-                variants={headingVariants(0.7)}
-                initial="hidden"
-                animate={isVisible ? "visible" : "hidden"}
-                className="overflow-hidden"
-              >
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#2E2E2E] leading-tight">
-                  Mari dengarkan
-                </h2>
-              </motion.div>
-
-              <motion.div
-                variants={headingVariants(0.9)}
-                initial="hidden"
-                animate={isVisible ? "visible" : "hidden"}
-                className="overflow-hidden"
-              >
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#2E2E2E] leading-tight">
-                  mereka.
-                </h2>
-              </motion.div>
-            </div>
-
-            {/* Decorative Line with Sequential Reveal */}
-            <div className="flex items-center gap-3">
+        <div className="space-y-8 lg:space-y-10">
+          <div className="space-y-3">
+            {["Setiap produk", "punya cerita.", "Mari dengarkan", "mereka."].map(
+              (text, i) => (
+                <motion.h2
+                  key={i}
+                  variants={headingVariant(0.3 + i * 0.15)}
+                  initial="hidden"
+                  animate={isVisible ? "visible" : "hidden"}
+                  className={`text-5xl md:text-6xl lg:text-7xl font-bold leading-tight ${
+                    i === 1 ? "text-[#FF885B]" : "text-[#2E2E2E]"
+                  }`}
+                >
+                  {text}
+                </motion.h2>
+              )
+            )}
+          </div>
+          <div className="flex items-center gap-3">
               <motion.div
                 custom={1.0}
-                variants={lineVariants}
                 initial="hidden"
+                variants={lineVariants}
                 animate={isVisible ? "visible" : "hidden"}
-                className="w-24 h-1.5 bg-[#FF885B] rounded-full"
+                className="w-24 h-1.5 bg-[#FF885B] rounded-full origin-left"
               />
               <motion.div
                 custom={1.1}
                 variants={lineVariants}
                 initial="hidden"
                 animate={isVisible ? "visible" : "hidden"}
-                className="w-16 h-1.5 bg-[#FF885B] rounded-full"
+                className="w-16 h-1.5 bg-[#FF885B] rounded-full origin-left"
               />
               <motion.div
                 custom={1.2}
                 variants={lineVariants}
                 initial="hidden"
                 animate={isVisible ? "visible" : "hidden"}
-                className="w-10 h-1.5 bg-[#FF885B] rounded-full"
+                className="w-10 h-1.5 bg-[#FF885B] rounded-full origin-left"
               />
-            </div>
-
-            {/* Story Slider with Animated Content */}
-            <motion.div
-              variants={sliderVariants}
-              initial="hidden"
-              animate={isVisible ? "visible" : "hidden"}
-              className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100"
-            >
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentStory}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  transition={{ duration: 0.4 }}
-                  className="mb-6"
-                >
-                  <div className="flex items-start gap-4 mb-4">
-                    <motion.div
-                      whileHover={{ scale: 1.1, rotate: 5 }}
-                      className="relative w-16 h-16 rounded-full overflow-hidden shrink-0 border-2 border-[#FF885B]"
-                    >
-                      <Image
-                        src={stories[currentStory].image}
-                        alt={stories[currentStory].name}
-                        fill
-                        className="object-cover"
-                      />
-                    </motion.div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900">{stories[currentStory].name}</h3>
-                      <p className="text-orange-500 font-medium">{stories[currentStory].business}</p>
-                    </div>
+          </div>
+          <motion.div
+            variants={sliderVariant}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="relative overflow-hidden"
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentStory}
+                initial={{ opacity: 0, x: 80, scale: 0.95 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -80, scale: 0.95 }}
+                transition={{ duration: 0.6, ease }}
+                className="bg-white rounded-3xl p-6 md:p-8 border border-gray-100 shadow-md"
+              >
+                <div className="flex items-start gap-4 mb-4">
+                  <motion.div
+                    whileHover={{ scale: 1.08, rotate: 3 }}
+                    className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-[#FF885B]"
+                  >
+                    <Image
+                      src={stories[currentStory].image}
+                      alt={stories[currentStory].name}
+                      fill
+                      className="object-cover"
+                    />
+                  </motion.div>
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900">
+                      {stories[currentStory].name}
+                    </h3>
+                    <p className="text-orange-500 font-medium">
+                      {stories[currentStory].business}
+                    </p>
                   </div>
-                  <p className="text-gray-700 leading-relaxed text-lg">
-                    &quot;{stories[currentStory].story}&quot;
-                  </p>
-                </motion.div>
-              </AnimatePresence>
+                </div>
 
-              {/* Navigation Controls */}
-              <div className="flex items-center justify-between">
-                <div className="flex gap-2">
-                  {stories.map((_, index) => (
+                <p className="text-gray-700 text-lg leading-relaxed">
+                  &quot;{stories[currentStory].story}&quot;
+                </p>
+
+                {/* Indicator */}
+                <div className="flex justify-center gap-2 mt-6">
+                  {stories.map((_, i) => (
                     <motion.button
-                      key={index}
-                      onClick={() => setCurrentStory(index)}
-                      whileHover={{ scale: 1.2 }}
+                      key={i}
+                      onClick={() => setCurrentStory(i)}
                       whileTap={{ scale: 0.9 }}
                       className={`h-2 rounded-full transition-all duration-300 ${
-                        index === currentStory 
-                          ? 'w-12 bg-orange-500' 
-                          : 'w-2 bg-gray-300 hover:bg-gray-400'
+                        i === currentStory
+                          ? "w-10 bg-[#FF885B]"
+                          : "w-3 bg-gray-300"
                       }`}
-                      aria-label={`Go to story ${index + 1}`}
                     />
                   ))}
                 </div>
-
-                <div className="flex gap-2">
-                  <motion.button
-                    onClick={prevStory}
-                    whileHover={{ scale: 1.1, backgroundColor: "#FF885B" }}
-                    whileTap={{ scale: 0.95 }}
-                    className="p-2 rounded-full bg-gray-100 hover:text-white transition-colors"
-                    aria-label="Previous story"
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </motion.button>
-                  <motion.button
-                    onClick={nextStory}
-                    whileHover={{ scale: 1.1, backgroundColor: "#FF885B" }}
-                    whileTap={{ scale: 0.95 }}
-                    className="p-2 rounded-full bg-gray-100 hover:text-white transition-colors"
-                    aria-label="Next story"
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </motion.button>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* CTA Button */}
-            <motion.div
-              variants={ctaVariants}
-              initial="hidden"
-              animate={isVisible ? "visible" : "hidden"}
-            >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
-                className="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl"
-              >
-                Baca Semua Cerita →
-              </motion.button>
-            </motion.div>
-          </div>
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+            variants={headingVariant(1.4)}
+            initial="hidden"
+            animate={isVisible ? "visible" : "hidden"}
+            className="bg-[#FF885B] hover:bg-[#FF9E6B] text-white font-semibold px-8 py-4 
+            rounded-full shadow-lg hover:shadow-xl transition-all duration-300 w-full md:w-auto"
+          >
+            Baca Semua Cerita →
+          </motion.button>
         </div>
       </div>
-
-      {/* Floating Decorative Elements with Animation */}
       <motion.div
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3]
-        }}
-        transition={{
-          duration: 4,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-        className="absolute top-20 right-10 w-32 h-32 bg-orange-300/20 rounded-full blur-3xl"
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-20 right-10 w-32 h-32 bg-[#FF9E6B]/20 rounded-full blur-3xl"
       />
       <motion.div
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.2, 0.4, 0.2]
-        }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1
-        }}
-        className="absolute bottom-40 left-10 w-40 h-40 bg-yellow-300/20 rounded-full blur-3xl"
+        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+        className="absolute bottom-40 left-10 w-40 h-40 bg-[#FFD194]/20 rounded-full blur-3xl"
       />
     </section>
   );
-};
-
-export default CeritaSection;
+}

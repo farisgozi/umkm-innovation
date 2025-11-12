@@ -3,7 +3,7 @@ import { dmSans, clashDisplay } from "../fonts/fonts";
 import "./globals.css";
 import Navbar from "./components/layouts/Navbar";
 import MotionFooter from "./components/layouts/MotionFooter";
-import ClientWrapper from "./motion/providers/ClientWrapper";
+import ClientWrapper from "../app/motion/ClientWrapper";
 
 export const metadata: Metadata = {
   title: "UMKM Kita - Platform Bisnis Lokal",
@@ -20,20 +20,31 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="id" className={`${clashDisplay.variable} ${dmSans.variable}`}>
-      <body className="antialiased font-sans">
-        <ClientWrapper pageKey="default">
+    <html
+      lang="id"
+      className={`${clashDisplay.variable} ${dmSans.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="antialiased font-sans overflow-x-hidden">
+        {/* ✅ ClientWrapper = Lenis, ScrollTrigger, Smooth Motion Context */}
+        <ClientWrapper pageKey="home">
+          {/* Navbar Sticky dengan motion */}
           <Navbar />
 
-          <main className="flex flex-col min-h-screen">{children}</main>
+          {/* Semua section akan smooth-scroll */}
+          <main className="flex flex-col min-h-screen relative z-10">
+            {children}
+          </main>
 
+          {/* Motion Footer dengan wave animation sinkron */}
           <MotionFooter />
         </ClientWrapper>
       </body>
+
     </html>
   );
 }

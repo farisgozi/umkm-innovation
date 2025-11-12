@@ -4,6 +4,10 @@ import React, { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 import { Star } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface Testimonial {
   id: number;
@@ -14,12 +18,12 @@ interface Testimonial {
   text: string;
 }
 
-const TestimoniSection = () => {
+export default function TestimoniSection() {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlay] = useState(true);
   const [direction, setDirection] = useState(1);
-  const sectionRef = useRef<HTMLDivElement>(null);
 
   const testimonials: Testimonial[] = [
     {
@@ -72,24 +76,20 @@ const TestimoniSection = () => {
     },
   ];
 
-  // Intersection Observer
+  // === Intersection Observer ===
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.2 }
+      ([entry]) => entry.isIntersecting && setIsVisible(true),
+      { threshold: 0.25 }
     );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
+    const el = sectionRef.current;
+    if (el) observer.observe(el);
+    return () => {
+      if (el) observer.unobserve(el);
+    };
   }, []);
 
+  // === Auto-play ===
   const goToTestimonial = useCallback(
     (index: number) => {
       setDirection(index > currentIndex ? 1 : -1);
@@ -98,24 +98,42 @@ const TestimoniSection = () => {
     [currentIndex]
   );
 
-  // Auto-play effect
   useEffect(() => {
-    if (!isAutoPlay || !isVisible) return;
-    const interval = setInterval(() => {
+    if (!isVisible) return;
+    const timer = setInterval(() => {
       goToTestimonial((currentIndex + 1) % testimonials.length);
-    }, 5000); // Ganti testimonial setiap 5 detik
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [isVisible, currentIndex, testimonials.length, goToTestimonial]);
 
-    return () => clearInterval(interval);
-  }, [isAutoPlay, isVisible, currentIndex, goToTestimonial, testimonials.length]);
+  // === Parallax Background ===
+  useEffect(() => {
+    if (!bgRef.current || !sectionRef.current) return;
 
-  // === Animation ===
+    const ctx = gsap.context(() => {
+      gsap.to(bgRef.current, {
+        yPercent: 15,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // === Animation Variants ===
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
+      transition: { 
+        staggerChildren: 0.15, 
+        delayChildren: 0.2 
       },
     },
   };
@@ -125,77 +143,85 @@ const TestimoniSection = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.8,
-        ease: cubicBezier(0.6, 0.05, 0.01, 0.9),
+      transition: { 
+        duration: 0.8, 
+        ease: cubicBezier(0.6, 0.05, 0.01, 0.9) 
       },
     },
   };
 
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
+      x: direction > 0 ? 150 : -150,
       opacity: 0,
-      scale: 0.8,
+      scale: 0.95,
     }),
     center: {
       x: 0,
       opacity: 1,
       scale: 1,
-      transition: {
-        duration: 0.5,
-        ease: cubicBezier(0.6, 0.05, 0.01, 0.9),
+      transition: { 
+        duration: 0.7, 
+        ease: cubicBezier(0.6, 0.05, 0.01, 0.9) 
       },
     },
     exit: (direction: number) => ({
-      x: direction > 0 ? -1000 : 1000,
+      x: direction > 0 ? -150 : 150,
       opacity: 0,
-      scale: 0.8,
-      transition: {
-        duration: 0.5,
-        ease: cubicBezier(0.6, 0.05, 0.01, 0.9),
-      },
+      scale: 0.95,
+      transition: { 
+        duration: 0.7, 
+        ease: cubicBezier(0.6, 0.05, 0.01, 0.9) }
+        ,
     }),
   };
 
   return (
     <section
       ref={sectionRef}
-      className="py-16 md:py-24 px-4 bg-linear-to-b from-orange-50/30 to-white overflow-hidden"
+      className="relative py-20 md:py-32 px-4 overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto">
+      {/* === Parallax Background === */}
+      <div
+        ref={bgRef}
+        className="absolute inset-0 bg-gradient-to-b from-[#FFD194]/40 via-[#FFF8F3]/70 to-white pointer-events-none"
+      />
+
+      <div className="relative max-w-6xl mx-auto">
         <motion.div
           initial="hidden"
           animate={isVisible ? "visible" : "hidden"}
           variants={containerVariants}
         >
-          {/* === Section Header === */}
-          <div className="text-center mb-12 md:mb-16">
-            <motion.div variants={titleVariants} className="inline-block mb-4">
-              <span className="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-600 rounded-full text-sm font-bold">
-                <Star className="w-4 h-4 fill-orange-600" />
-                Testimoni
-              </span>
+          {/* === Header === */}
+          <div className="text-center mb-14 md:mb-20">
+            <motion.div
+              variants={titleVariants}
+              className="inline-flex items-center gap-2 px-5 py-2 bg-[#FF9E6B]/15 text-[#FF885B] rounded-full font-semibold mb-4"
+            >
+              <Star className="w-5 h-5 fill-[#FF9E6B]" />
+              Testimoni
             </motion.div>
 
             <motion.h2
               variants={titleVariants}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#2E2E2E] mb-3"
             >
               Apa Kata Mereka?
             </motion.h2>
 
             <motion.p
               variants={titleVariants}
-              className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto"
+              className="text-lg md:text-xl text-[#6B6B6B] max-w-2xl mx-auto"
             >
-              Dengarkan cerita sukses dari pelaku UMKM yang telah bergabung
+              Dengarkan kisah nyata para pelaku UMKM yang berkembang bersama UMKM
+              Kita.
             </motion.p>
           </div>
 
           {/* === Testimonial Slider === */}
           <div className="relative max-w-4xl mx-auto">
-            <div className="relative min-h-[400px] md:min-h-[300px] flex items-center">
+            <div className="relative min-h-[400px] md:min-h-[320px] flex items-center">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={currentIndex}
@@ -206,12 +232,12 @@ const TestimoniSection = () => {
                   exit="exit"
                   className="w-full"
                 >
-                  <div className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl border border-gray-100">
-                    <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8">
+                  <div className="bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-2xl border border-[#FFD194]/50">
+                    <div className="flex flex-col md:flex-row items-center gap-8">
                       {/* Avatar */}
                       <motion.div
-                        whileHover={{ scale: 1.1, rotate: 5 }}
-                        className="relative w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden shrink-0 border-4 border-orange-400 shadow-xl"
+                        whileHover={{ scale: 1.05, rotate: 3 }}
+                        className="relative w-28 h-28 md:w-36 md:h-36 rounded-full overflow-hidden shrink-0 border-4 border-[#FF9E6B]/60 shadow-lg"
                       >
                         <Image
                           src={testimonials[currentIndex].avatar}
@@ -227,27 +253,28 @@ const TestimoniSection = () => {
                           {[...Array(5)].map((_, i) => (
                             <Star
                               key={i}
-                              className={`w-6 h-6 ${
-                                i < Math.floor(testimonials[currentIndex].rating)
-                                  ? "fill-orange-400 text-orange-400"
+                              className={`w-5 h-5 ${
+                                i <
+                                Math.floor(testimonials[currentIndex].rating)
+                                  ? "fill-[#FF9E6B] text-[#FF9E6B]"
                                   : "text-gray-300"
                               }`}
                             />
                           ))}
-                          <span className="font-bold text-2xl text-gray-900 ml-2">
+                          <span className="font-bold text-xl text-[#2E2E2E] ml-1">
                             {testimonials[currentIndex].rating}
                           </span>
                         </div>
 
-                        <p className="text-xl md:text-2xl text-gray-700 leading-relaxed mb-6 italic">
-                          &quot;{testimonials[currentIndex].text}&quot;
+                        <p className="text-lg md:text-xl text-[#6B6B6B] leading-relaxed mb-6 italic">
+                          “{testimonials[currentIndex].text}”
                         </p>
 
                         <div>
-                          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-1">
+                          <h3 className="text-2xl font-bold text-[#2E2E2E] mb-1">
                             {testimonials[currentIndex].name}
                           </h3>
-                          <p className="text-lg md:text-xl text-orange-500 font-medium">
+                          <p className="text-lg text-[#FF885B] font-medium">
                             {testimonials[currentIndex].business}
                           </p>
                         </div>
@@ -258,30 +285,26 @@ const TestimoniSection = () => {
               </AnimatePresence>
             </div>
 
-            {/* Dots + Controls */}
-            <div className="flex items-center justify-center gap-6 mt-8">
-              <div className="flex gap-2">
-                {testimonials.map((_, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => goToTestimonial(index)}
-                    whileHover={{ scale: 1.2 }}
-                    whileTap={{ scale: 0.9 }}
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      index === currentIndex
-                        ? "w-12 bg-orange-500"
-                        : "w-2 bg-gray-300 hover:bg-gray-400"
-                    }`}
-                    aria-label={`Go to testimonial ${index + 1}`}
-                  />
-                ))}
-              </div>
+            {/* === Dots === */}
+            <div className="flex items-center justify-center gap-2 mt-8">
+              {testimonials.map((_, i) => (
+                <motion.button
+                  key={i}
+                  onClick={() => goToTestimonial(i)}
+                  whileHover={{ scale: 1.15 }}
+                  whileTap={{ scale: 0.9 }}
+                  className={`h-2 rounded-full transition-all duration-300 ${
+                    i === currentIndex
+                      ? "w-10 bg-[#FF885B]"
+                      : "w-3 bg-gray-300 hover:bg-gray-400"
+                  }`}
+                  aria-label={`Testimonial ${i + 1}`}
+                />
+              ))}
             </div>
           </div>
         </motion.div>
       </div>
     </section>
   );
-};
-
-export default TestimoniSection;
+}

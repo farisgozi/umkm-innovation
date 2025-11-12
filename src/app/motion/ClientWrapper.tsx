@@ -16,15 +16,13 @@ interface ClientWrapperProps {
 
 export default function ClientWrapper({ children, pageKey }: ClientWrapperProps) {
   useEffect(() => {
-    // Set default animation untuk seluruh GSAP
     gsap.defaults({
       ease: "power1.out",
       duration: 0.6,
-      overwrite: "auto", // mencegah animasi tumpang-tindih
+      overwrite: "auto",
     });
   }, []);
 
-  // Fungsi untuk sync ScrollTrigger dengan Lenis
   const handleScroll = () => {
     ScrollTrigger.update();
   };
@@ -34,7 +32,7 @@ export default function ClientWrapper({ children, pageKey }: ClientWrapperProps)
       options={{
         duration: 1.2,
         smoothWheel: true,
-        lerp: 0.1, // cinematic smooth feel
+        lerp: 0.1,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       }}
       root
