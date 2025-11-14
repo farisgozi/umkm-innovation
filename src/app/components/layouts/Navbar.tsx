@@ -55,9 +55,9 @@ export default function Navbar() {
     <>
       <motion.header
         initial={{ y: -120, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
+        animate={{ y: scrolled ? -5 : 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.6, 0.05, 0.01, 0.9] }}
-        className={`fixed top-0 w-full z-50 transition-all duration-500 ${
+        className={`fixed top-0 w-full z-50 transition-colors duration-500 ${
           scrolled 
             ? "backdrop-blur-xl bg-[#FFF8F3]/70 shadow-md" 
             : "bg-transparent"
@@ -66,12 +66,9 @@ export default function Navbar() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
             
-            {/* Logo */}
             <Link href="/" className="flex items-center group z-50">
               <motion.div
-                whileHover={{ scale: 1.05, rotate: 3 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 className="relative w-14 h-14 md:w-16 md:h-16"
               >
                 <Image
@@ -96,7 +93,7 @@ export default function Navbar() {
                   href={item.href}
                   className="relative group py-2"
                 >
-                  <span className={`relative z-10 transition-colors duration-200 ${
+                  <span className={`relative z-10 transition-colors duration-300 ${
                     scrolled 
                       ? "group-hover:text-[#FF885B]" 
                       : "group-hover:text-[#FF9E6B]"
@@ -187,31 +184,44 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
                 className="lg:hidden bg-white/95 backdrop-blur-xl shadow-2xl"
               >
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                  <nav className="flex flex-col py-6 gap-2">
-                    {navItems.map((item) => (
-                      <Link
+                  <motion.nav
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    variants={{
+                      hidden: {},
+                      visible: { transition: { staggerChildren: 0.05 } }
+                    }}
+                    className="flex flex-col py-6 gap-2"
+                  >
+                    {navItems.map(item => (
+                      <motion.div
                         key={item.name}
-                        href={item.href}
-                        onClick={() => setIsOpen(false)}
-                        className="px-4 py-3 text-[#2E2E2E] font-semibold text-lg rounded-xl hover:bg-[#FF9E6B]/10 hover:text-[#FF885B] transition-all duration-200"
+                        variants={{ hidden: { opacity: 0, y: -10 }, visible: { opacity: 1, y: 0 } }}
                       >
-                        {item.name}
-                      </Link>
+                        <Link
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className="px-4 py-3 text-[#2E2E2E] font-semibold text-lg rounded-xl hover:bg-[#FF9E6B]/10 hover:text-[#FF885B] transition-all duration-200"
+                        >
+                          {item.name}
+                        </Link>
+                      </motion.div>
                     ))}
 
                     {/* Mobile CTA */}
                     <motion.button
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => setIsOpen(false)}
                       className="mt-4 px-6 py-3 text-base font-bold bg-gradient-to-r from-[#FF885B] to-[#FF9E6B] text-[#2E2E2E] rounded-full shadow-lg hover:shadow-xl transition-all duration-200"
+                      onClick={() => setIsOpen(false)}
                     >
                       Mulai Jelajah
                     </motion.button>
-                  </nav>
+                  </motion.nav>
                 </div>
               </motion.div>
             </>

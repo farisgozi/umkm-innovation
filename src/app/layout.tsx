@@ -3,7 +3,7 @@ import { dmSans, clashDisplay } from "../fonts/fonts";
 import "./globals.css";
 import Navbar from "./components/layouts/Navbar";
 import MotionFooter from "./components/layouts/MotionFooter";
-import ClientWrapper from "../app/motion/ClientWrapper";
+import ClientWrapper from "./motion/providers/ClientWrapper";
 
 export const metadata: Metadata = {
   title: "UMKM Kita - Platform Bisnis Lokal",
@@ -30,12 +30,12 @@ export default function RootLayout({
       suppressHydrationWarning={true}
     >
       <body 
-        className="antialiased font-sans overflow-x-hidden"
+        className="antialiased font-sans"
         suppressHydrationWarning={true}
         >
-        <ClientWrapper pageKey="home">
+       <ClientWrapper pageKey="root">
           <Navbar />
-          <main className="flex flex-col min-h-screen relative z-10">
+          <main className="relative overflow-hidden">
             {children}
           </main>
           <MotionFooter />

@@ -1,150 +1,118 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion, cubicBezier } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import { useLenis } from "lenis/react";
-
-gsap.registerPlugin(ScrollTrigger);
+import useGsapSection from "@/app/motion/hooks/useGsapSection";
 
 export default function HeroSection() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const bgRef = useRef<HTMLDivElement>(null);
-  const lenis = useLenis();
-  const heading = ["Temukan UMKM", "Keren di", "Sekitarmu"];
+  const [typedText, setTypedText] = useState("");
 
+  // Typing effect
   useEffect(() => {
-    if (!bgRef.current || !lenis) return;
+    const targetText = "Keren di";
+    let index = 0;
+    const timer = setInterval(() => {
+      setTypedText(targetText.slice(0, index + 1));
+      index++;
+      if (index === targetText.length) clearInterval(timer);
+    }, 200);
+    return () => clearInterval(timer);
+  }, []);
 
-    const ctx = gsap.context(() => {
-      gsap.to(bgRef.current, {
-        scale: 1.2,
-        yPercent: 15,
-        ease: "power1.out",
-        scrollTrigger: {
-          trigger: bgRef.current,
-          scroller: document.body,
-          start: "top bott",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, [lenis]);
-
-  const kineticVariants = {
-    hidden: { opacity: 0, y: 60 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.25,
+  // GSAP Section Hook
+  const ref = useGsapSection({
+    start: "top bottom",
+    end: "bottom top",
+    scrub: true,
+    parallax: [
+      { selector: ".hero-bg", speed: 0.2, depth: 1 },
+      { selector: ".bg-gradient", speed: 0.1, depth: 1 },
+    ],
+    timeline: (tl: gsap.core.Timeline) => {
+      tl.from(".hero-title", {
+        opacity: 0,
+        y: 60,
         duration: 0.8,
-        ease: cubicBezier(0.25, 0.1, 0.25, 1),
-      },
-    }),
-  };
+        ease: "power2.out",
+      })
+        .from(
+          ".hero-desc",
+          { opacity: 0, y: 40, duration: 0.10 },
+          "-=0.2"
+        )
+        .from(
+          ".hero-cta",
+          { opacity: 0, y: 30, duration: 0.10 },
+          "-=0.2"
+        )
+        .from(
+          ".hero-scroll-hint",
+          { opacity: 0, y: 30, duration: 0.7 },
+          "<0.1"
+        );
+    },
+  });
 
   return (
     <section
-      ref={containerRef}
-      className="relative flex items-center overflow-hidden min-h-screen"
+      ref={ref}
+      id="beranda"
+      className="relative flex items-center min-h-screen"
     >
-      {/* Background */}
-      <div
-        ref={bgRef}
-        className="absolute inset-0 -z-10 will-change-transform"
-        aria-hidden="true"
-      >
+      {/* === Background Layer === */}
+      <div className="absolute inset-0 -z-20 will-change-transform">
         <Image
           src="/assets/images/hero-bg.jpg"
           alt="Kota Jakarta senja"
           fill
           priority
-          className="object-cover"
+          className="object-cover hero-bg"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#2E2E2E]/20 to-[#2E2E2E]/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#2E2E2E]/20 to-[#2E2E2E]/80 bg-gradient" />
       </div>
 
-      {/* Content */}
+      {/* === Content === */}
       <div className="relative z-10 container mx-auto px-6 md:px-8 lg:px-16 py-20 min-h-screen flex flex-col justify-center">
         <div className="max-w-4xl space-y-6">
-          {heading.map((text, i) => (
-            <motion.h1
-              key={text}
-              custom={i}
-              variants={kineticVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className={`text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold leading-tight ${
-                i === 1 ? "text-[#FF9E6B]" : "text-[#FFF8F3]"
-              }`}
-            >
-              {text}
-            </motion.h1>
-          ))}
+          {/* Kinetic Typography */}
+          <h1 className="hero-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-[#FFF8F3]">
+            Temukan <span className="text-[#FF9E6B]">UMKM</span>
+            <br />
+            {typedText}
+            <br />
+            Sekitarmu
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8, ease: "easeOut" }}
-            className="text-lg md:text-xl text-[#FFF8F3]/90 leading-relaxed max-w-2xl"
-          >
-            Dari warung kopi legendaris, kedai bakso andalan, hingga usaha kreatif di
-            kampusmu — semua ada di satu tempat. Jelajahi, dukung, dan kenali cerita di
-            balik setiap karya lokal.
-          </motion.p>
+          {/* Deskripsi */}
+          <p className="hero-desc text-lg md:text-xl text-[#FFF8F3]/90 leading-relaxed max-w-2xl">
+            Dari warung kopi legendaris, kedai bakso andalan, hingga usaha kreatif di kampusmu — semua ada di satu tempat. Jelajahi, dukung, dan kenali cerita dibalik setiap karya lokal.
+          </p>
 
           {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.7 }}
-            className="mt-8 flex flex-wrap gap-4 items-center"
-          >
-            <motion.a
+          <div className="hero-cta mt-8 flex flex-wrap gap-4 items-center">
+            <a
               href="#explore"
-              whileHover={{ scale: 1.05, boxShadow: "0 12px 40px rgba(249,115,22,0.4)" }}
-              whileTap={{ scale: 0.97 }}
-              animate={{ scale: [1, 1.02, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
               className="inline-flex items-center font-bold rounded-full bg-[#FF9E6B] hover:bg-[#FF885B] text-[#FFF8F3] px-8 py-4 transition-all duration-300 shadow-lg"
             >
               Jelajahi Sekarang
-            </motion.a>
-            <motion.a
+            </a>
+            <a
               href="#about"
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255,248,243,0.2)" }}
-              whileTap={{ scale: 0.97 }}
               className="inline-flex items-center font-bold text-[#FFF8F3] px-8 py-4 rounded-full bg-[#FFF8F3]/10 backdrop-blur-sm border border-[#FFF8F3]/30 transition-all duration-300"
             >
               Pelajari Lebih Lanjut
-            </motion.a>
-          </motion.div>
+            </a>
+          </div>
 
           {/* Scroll Hint */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.6 }}
-            className="mt-16 flex items-center gap-3 text-[#FFF8F3]/70"
-          >
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: 48 }}
-              transition={{ duration: 0.8, delay: 1.7 }}
-              className="h-px bg-[#FFF8F3]/30"
-            />
+          <div className="hero-scroll-hint mt-16 flex items-center gap-3 text-[#FFF8F3]/70">
+            <div className="h-px bg-[#FFF8F3]/30 w-12" />
             <span className="text-sm font-medium">
               Geser ke bawah untuk melihat lebih banyak
             </span>
-          </motion.div>
+          </div>
         </div>
       </div>
 
@@ -156,30 +124,12 @@ export default function HeroSection() {
           duration: 1.2,
           delay: 2,
           repeat: Infinity,
-          repeatType: "loop",
           ease: "easeInOut",
         }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
       >
         <ChevronDown className="w-6 h-6 text-[#FFF8F3]/80" />
       </motion.div>
-
-      {/* Ambient Circles */}
-      <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-1/4 right-10 w-40 h-40 bg-[#FF9E6B]/10 rounded-full blur-3xl"
-      />
-      <motion.div
-        animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{
-          duration: 5,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1,
-        }}
-        className="absolute bottom-1/4 left-10 w-32 h-32 bg-[#FF9E6B]/10 rounded-full blur-3xl"
-      />
     </section>
   );
 }

@@ -43,7 +43,7 @@ export function MapFilters({
   return (
     <>
       {/* Search Bar - Centered at Top */}
-      <div className="absolute top-4 sm:top-6 left-1/2 transform -translate-x-1/2 z-30 sm:w-auto w-11/12">
+      <div className="absolute top-4 sm:top-6 left-1/2 transform -translate-x-1/2 z-30 sm:w-auto w-1/2">
         <div className="flex items-center gap-2 border border-gray-300 rounded-full px-4 py-2 bg-white shadow-md">
           <Search className="w-4 h-4 text-gray-400" />
           <input

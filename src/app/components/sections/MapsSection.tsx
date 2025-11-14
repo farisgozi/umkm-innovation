@@ -77,7 +77,7 @@ export default function MapsSection  () {
   };
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 bg-orange-50/30">
+    <section ref={sectionRef} className="py-16 md:py-20 bg-orange-50/30">
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <motion.div
           initial="hidden"
