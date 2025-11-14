@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { Star, Instagram, Facebook, Phone } from 'lucide-react';
 import { UMKM } from '@/app/data/umkmDummy';
+import Link from 'next/link';
 
 interface UMKMPopupCardProps {
   umkm: UMKM;
@@ -109,11 +110,12 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
           >
             Tutup
           </button>
-            <button
-              className="bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-md"
+            <Link
+              href={`/umkm/${umkm.id}`}
+              className="bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-md transition-all duration-300 hover:scale-105"
             >
               Lihat Detail
-            </button>
+            </Link>
         </div>
       </div>
     </motion.div>

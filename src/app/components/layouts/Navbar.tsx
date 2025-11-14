@@ -75,7 +75,7 @@ export default function Navbar() {
                 className="relative w-14 h-14 md:w-16 md:h-16"
               >
                 <Image
-                  src="/assets/images/logo.png"
+                  src="/assets/images/Logo.png"
                   alt="UMKM Kita Logo"
                   fill
                   className="object-contain"
