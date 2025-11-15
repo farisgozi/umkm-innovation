@@ -152,6 +152,7 @@ export default function CeritaSection() {
                 &quot;{stories[currentStory].story}&quot;
               </p>
 
+            </div>
               {/* Indicator */}
               <div className="flex justify-center gap-2 mt-6">
                 {stories.map((_, i) => (
@@ -164,7 +165,6 @@ export default function CeritaSection() {
                   />
                 ))}
               </div>
-            </div>
           </div>
         </div>
       </div>

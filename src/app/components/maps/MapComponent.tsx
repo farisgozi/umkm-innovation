@@ -31,7 +31,7 @@ export default function MapComponent() {
   /* === Responsive vh fix & Mobile Detection === */
   useEffect(() => {
     const setVh = () => document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     setVh();
     checkMobile();
     window.addEventListener('resize', setVh);
@@ -67,7 +67,9 @@ export default function MapComponent() {
   const onMarkerClick = useCallback(
     (m: UMKMType) => {
       setActiveUMKM(m);
-      if (!isMobile) mapRef.current?.flyTo([m.lat, m.lng], 15, { duration: 1.2 });
+      if (!isMobile) {
+        mapRef.current?.flyTo([m.lat, m.lng], 15, { duration: 1.2 });
+      }
     },
     [isMobile]
   );

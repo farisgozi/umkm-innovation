@@ -53,29 +53,20 @@ export default function HeroSection({ umkm, heroImageRef }: HeroSectionProps) {
           custom={1}
         >
           {/* Stats Cards */}
-          <div className="flex flex-wrap gap-2 sm:gap-3 mb-4 sm:mb-6">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
             <motion.div 
-              className="px-3 sm:px-5 py-2 sm:py-3 bg-gradient-to-r from-[#FF9E6B] to-[#FF9E6B]/80 backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-xl border border-[#FFF8F3]/20 flex items-center gap-1.5 sm:gap-2"
+              className="px-3 sm:px-5 py-2 sm:py-3 bg-gradient-to-r from-[#FF9E6B] to-[#FF9E6B]/80 backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-xl border border-[#FFF8F3]/20 flex items-center justify-centergap-1.5 sm:gap-2"
               whileHover={{ scale: 1.05 }}
             >
               <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-yellow-300 text-yellow-300" />
               <span className="font-bold text-[#FFF8F3] text-base sm:text-lg">{umkm.rating}</span>
-              <span className="text-[#FFF8F3]/90 text-xs sm:text-sm hidden xs:inline">Rating</span>
             </motion.div>
             
             <motion.div 
               className="px-3 sm:px-5 py-2 sm:py-3 bg-[#FFF8F3]/90 backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-xl border border-[#FF9E6B]/20"
               whileHover={{ scale: 1.05 }}
             >
-              <span className="text-[#2E2E2E] font-medium text-xs sm:text-base">{umkm.category}</span>
-            </motion.div>
-
-            <motion.div 
-              className="px-3 sm:px-5 py-2 sm:py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 backdrop-blur-xl rounded-xl sm:rounded-2xl shadow-xl border border-[#FFF8F3]/20 flex items-center gap-1.5 sm:gap-2"
-              whileHover={{ scale: 1.05 }}
-            >
-              <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-[#FFF8F3]" />
-              <span className="text-[#FFF8F3] font-medium text-xs sm:text-sm">Populer</span>
+              <span className="text-[#2E2E2E] font-bold text-xs sm:text-base">{umkm.category}</span>
             </motion.div>
           </div>
 

@@ -18,7 +18,6 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
   isMobile,
   onClose,
 }) => {
-  /* === Render Bintang Rating === */
   const renderStars = () => (
     <div className="flex items-center mt-2 text-[#FF9E6B]">
       {[...Array(5)].map((_, i) => (
@@ -33,7 +32,6 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
     </div>
   );
 
-  /* === Render Social Media & Kontak === */
   const renderSocialMedia = () => {
     const sm = umkm.socialMedia;
     return (
@@ -57,7 +55,6 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
     );
   };
 
-  /* === Render Jam Buka === */
   const getOpenHoursText = () => {
     if (!umkm.openHours) return 'Jam buka tidak tersedia';
     return `${umkm.openHours.open} - ${umkm.openHours.close}`;
@@ -104,7 +101,7 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
       </div>
 
       <div className="max-h-[40vh] sm:max-h-none overflow-y-auto mt-3">
-        <p className="text-gray-600 text-sm leading-relaxed">{umkm.description}</p>
+        <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">{umkm.description}</p>
       </div>
 
       <div className="mt-4 flex justify-between items-center border-t pt-3">

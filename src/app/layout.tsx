@@ -27,7 +27,6 @@ export default function RootLayout({
     <html
       lang="id"
       className={`${clashDisplay.variable} ${dmSans.variable}`}
-      suppressHydrationWarning={true}
     >
       <body 
         className="antialiased font-sans"
