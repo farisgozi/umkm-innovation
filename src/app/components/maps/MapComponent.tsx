@@ -31,7 +31,7 @@ export default function MapComponent() {
   /* === Responsive vh fix & Mobile Detection === */
   useEffect(() => {
     const setVh = () => document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
-    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
     setVh();
     checkMobile();
     window.addEventListener('resize', setVh);
@@ -42,10 +42,8 @@ export default function MapComponent() {
     };
   }, []);
 
-  /* === Dummy Data === */
   const umkmList = useMemo(() => umkmDummy, []);
 
-  /* === Filtering Data === */
   const filteredData = useMemo(() => {
     return umkmList
       .filter(d => activeCategory === 'All' || d.category === activeCategory)
@@ -53,7 +51,6 @@ export default function MapComponent() {
       .filter(d => !filterRadius || !userLocation || getDistanceKm(userLocation.lat, userLocation.lng, d.lat, d.lng) <= 5);
   }, [umkmList, activeCategory, searchQuery, filterRadius, userLocation]);
 
-  /* === Geolocation === */
   const handleLocateUser = useCallback(() => {
     if (!navigator.geolocation) return alert('Browser tidak mendukung geolocation');
     navigator.geolocation.getCurrentPosition(
@@ -70,7 +67,9 @@ export default function MapComponent() {
   const onMarkerClick = useCallback(
     (m: UMKMType) => {
       setActiveUMKM(m);
-      if (!isMobile) mapRef.current?.flyTo([m.lat, m.lng], 15, { duration: 1.2 });
+      if (!isMobile) {
+        mapRef.current?.flyTo([m.lat, m.lng], 15, { duration: 1.2 });
+      }
     },
     [isMobile]
   );
@@ -157,7 +156,7 @@ export default function MapComponent() {
 
       {/* Controls */}
       <MapFilters
-        categories={['All', 'Kuliner', 'Fashion']}
+        categories={['All', 'Makanan', 'Minuman', 'Fashion', 'Kedai Kopi']}
         activeCategory={activeCategory}
         onFilter={setActiveCategory}
         onSearch={setSearchQuery}

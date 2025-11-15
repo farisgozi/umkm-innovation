@@ -2,7 +2,7 @@
 
 import { JSX, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Store, UtensilsCrossed, Shirt, Search, MapPin } from 'lucide-react';
+import { Store, UtensilsCrossed, Shirt, Search, MapPin, Coffee, GlassWater } from 'lucide-react';
 
 interface MapFiltersProps {
   categories: string[];
@@ -29,8 +29,10 @@ export function MapFilters({
 }: MapFiltersProps) {
   const filters: FilterOption[] = [
     { label: 'All', icon: <Store className="w-4 h-4" /> },
-    { label: 'Kuliner', icon: <UtensilsCrossed className="w-4 h-4" /> },
+    { label: 'Makanan', icon: <UtensilsCrossed className="w-4 h-4" /> },
+    { label: 'Minuman', icon: <GlassWater className="w-4 h-4" /> },
     { label: 'Fashion', icon: <Shirt className="w-4 h-4" /> },
+    { label: 'Kedai Kopi', icon: <Coffee className="w-4 h-4" /> },
   ];
 
   const [open, setOpen] = useState(false);

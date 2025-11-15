@@ -84,6 +84,7 @@ export default function CeritaSection() {
   return (
     <section
       ref={sectionRef}
+      id="cerita"
       className="py-16 md:py-20 overflow-hidden"
       aria-labelledby="cerita-heading"
     >
@@ -151,6 +152,7 @@ export default function CeritaSection() {
                 &quot;{stories[currentStory].story}&quot;
               </p>
 
+            </div>
               {/* Indicator */}
               <div className="flex justify-center gap-2 mt-6">
                 {stories.map((_, i) => (
@@ -163,7 +165,6 @@ export default function CeritaSection() {
                   />
                 ))}
               </div>
-            </div>
           </div>
         </div>
       </div>

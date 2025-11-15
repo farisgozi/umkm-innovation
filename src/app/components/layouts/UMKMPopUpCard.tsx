@@ -18,7 +18,6 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
   isMobile,
   onClose,
 }) => {
-  /* === Render Bintang Rating === */
   const renderStars = () => (
     <div className="flex items-center mt-2 text-[#FF9E6B]">
       {[...Array(5)].map((_, i) => (
@@ -33,7 +32,6 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
     </div>
   );
 
-  /* === Render Social Media & Kontak === */
   const renderSocialMedia = () => {
     const sm = umkm.socialMedia;
     return (
@@ -57,11 +55,12 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
     );
   };
 
-  /* === Render Jam Buka === */
   const getOpenHoursText = () => {
     if (!umkm.openHours) return 'Jam buka tidak tersedia';
     return `${umkm.openHours.open} - ${umkm.openHours.close}`;
   };
+
+    const heroImage = umkm.gallery?.[0]; 
 
   return (
     <motion.div
@@ -82,13 +81,17 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
       {isMobile && <div className="w-10 h-1.5 bg-[#6B6B6B] rounded-full mx-auto mb-3" />}
 
       <div className="flex gap-4 items-start">
-        <Image
-          src={umkm.image || '/placeholder.png'}
-          alt={umkm.name}
-          width={64}
-          height={64}
-          className="w-16 h-16 rounded-2xl object-cover shadow-md flex-shrink-0"
-        />
+        {heroImage && (
+          <Image
+            src={heroImage}
+            alt={umkm.name}
+            width={64}
+            height={64}
+            className="w-16 h-16 rounded-2xl object-cover shadow-md flex-shrink-0"
+          />
+        )
+
+        }
         <div className="flex-1">
           <h3 className="text-lg font-bold text-[#2E2E2E]">{umkm.name}</h3>
           <p className="text-sm text-gray-500">{umkm.address}</p>
@@ -98,7 +101,7 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
       </div>
 
       <div className="max-h-[40vh] sm:max-h-none overflow-y-auto mt-3">
-        <p className="text-gray-600 text-sm leading-relaxed">{umkm.description}</p>
+        <p className="text-gray-600 text-sm leading-relaxed line-clamp-2">{umkm.description}</p>
       </div>
 
       <div className="mt-4 flex justify-between items-center border-t pt-3">

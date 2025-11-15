@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Link from "next/link";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
@@ -15,13 +14,6 @@ export default function MotionFooter() {
   const contentRef = useRef<HTMLDivElement>(null);
   const lenis = useLenis();
 
-  const navLinks = [
-    { name: "Beranda", href: "/" },
-    { name: "Kategori", href: "/kategori" },
-    { name: "Eksplor", href: "/eksplor" },
-    { name: "Cerita", href: "/cerita" },
-    { name: "Tentang Kami", href: "/tentang" },
-  ];
 
   useEffect(() => {
     if (!lenis) return;
@@ -122,20 +114,6 @@ export default function MotionFooter() {
           >
             Dukung Bisnis Lokal
           </h2>
-          <nav className="inline-block bg-white/10 backdrop-blur-md rounded-full px-6 md:px-10 py-4 shadow-lg">
-            <ul className="flex flex-wrap justify-center items-center gap-4 md:gap-8">
-              {navLinks.map((link, index) => (
-                <li key={index}>
-                  <Link
-                    href={link.href}
-                    className="text-white font-semibold text-sm md:text-base lg:text-lg hover:text-[#FFD194] transition-colors duration-300"
-                  >
-                    {link.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
           <p className="text-white/80 text-sm md:text-base font-medium">
             &copy; 2025 UMKM Kita. Semua hak cipta dilindungi.
           </p>

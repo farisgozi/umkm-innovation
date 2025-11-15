@@ -39,7 +39,7 @@ export default function SafeImage({
   if (fill) {
     return (
       <Image
-        src={imageSrc || "/placeholder.svg"}
+        src={imageSrc || "/placeholder.jpg"}
         alt={alt}
         fill
         priority={priority}
@@ -53,7 +53,7 @@ export default function SafeImage({
 
   return (
     <Image
-      src={imageSrc || "/placeholder.svg"}
+      src={imageSrc || "/placeholder.jpg"}
       alt={alt}
       priority={priority}
       onError={handleError}

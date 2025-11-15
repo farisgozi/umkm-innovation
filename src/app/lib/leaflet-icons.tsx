@@ -21,7 +21,6 @@ export function createLucideIconMarker(icon: ReactElement, color = '#FF885B') {
         transition: 'all 0.3s ease',
       }}
     >
-      {/* Inner Circle (untuk efek dimensi) */}
       <div
         style={{
           width: '28px',
