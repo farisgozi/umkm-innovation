@@ -293,21 +293,20 @@ export const umkmDummy: UMKM[] = [
   {
     id: '12',
     name: 'Mie Ayam Bakso Kangen',
-    address: 'Jl. Kemang Timur No.46, RT.10/RW.4, Bangka, Kec. Mampang Prpt., Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta',
+    address: 'Jl. Swadaya Raya No.1 Blok k, RT.1/RW.5, Duren Sawit, Durensawit, Kota Jakarta Timur, Daerah Khusus Ibukota Jakarta',
     lat: -6.236547609513081,
     lng: 106.91800025659701,
-    category: 'Kedai Kopi',
-    description: 'MYS-BAR COFFE adalah tempat nongkrong modern yang menyajikan kopi dan minuman kekinian dengan harga terjangkau. Suasana yang nyaman dan estetis sangat cocok untuk bersantai atau bekerja.',
+    category: 'Makanan',
+    description: 'Mie Ayam Bakso Kangen adalah warung kaki lima populer di kawasan Duren Sawit. Dikenal dengan mie ayam dengan bumbu racikan khas yang lezat dan bakso urat/halus yang kenyal. Tempat sederhana ini cocok untuk makan siang yang hangat dan mengenyangkan, dengan harga yang ramah di kantong warga sekitar.',
     gallery: [
       '/assets/images/umkm/bakso-kangen.webp',
       '/assets/images/umkm/bakso-kangen-produk.webp',
       '/assets/images/umkm/bakso-kangen-produk2.webp',
     ],
-    rating: 4.8,
-    phone: '+62 821-3335-3110',
+    rating: 4.5,
     openHours: { 
-      open: '11:00', 
-      close: '23:00', 
+      open: '10:00', 
+      close: '21:00', 
       days: ['Setiap Hari'] 
     },
   },
