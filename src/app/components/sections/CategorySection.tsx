@@ -20,15 +20,15 @@ const CategorySection = () => {
   const [activeCategory, setActiveCategory] = useState(1);
 
   const categories: Category[] = [
-    { id: 1, name: 'Minuman', illustration: '/assets/images/illustrations/drink.png' },
-    { id: 2, name: 'Makanan', illustration: '/assets/images/illustrations/sesame-bun.png' },
-    { id: 3, name: 'Jasa', illustration: '/assets/images/illustrations/t-shirt.png' },
+    { id: 1, name: 'Minuman', illustration: 'https://syd.cloud.appwrite.io/v1/storage/buckets/illustrations/files/6918c42600075972b81a/view?project=6861b5e20027ba386475&mode=admin' },
+    { id: 2, name: 'Makanan', illustration: 'https://syd.cloud.appwrite.io/v1/storage/buckets/illustrations/files/6918c457003b4b1c053f/view?project=6861b5e20027ba386475&mode=admin' },
+    { id: 3, name: 'Jasa', illustration: 'https://syd.cloud.appwrite.io/v1/storage/buckets/illustrations/files/6918c45d0014cbd719ae/view?project=6861b5e20027ba386475&mode=admin' },
   ];
 
   const foodItems: FoodItem[] = [
-    { id: 1, name: 'Sate Bakar', preview: '/assets/images/illustrations/seafood.jpg' },
-    { id: 2, name: 'Es Cendol', preview: '/assets/images/illustrations/es-cendol.jpeg' },
-    { id: 3, name: 'Lumpia Goreng', preview: '/assets/images/illustrations/pempek-pempek.jpeg' },
+    { id: 1, name: 'Sate Bakar', preview: 'https://syd.cloud.appwrite.io/v1/storage/buckets/illustrations/files/6918c4450018dfdc8210/view?project=6861b5e20027ba386475&mode=admin' },
+    { id: 2, name: 'Es Cendol', preview: 'https://syd.cloud.appwrite.io/v1/storage/buckets/illustrations/files/6918c430003b2b71d0eb/view?project=6861b5e20027ba386475&mode=admin' },
+    { id: 3, name: 'Lumpia Goreng', preview: 'https://syd.cloud.appwrite.io/v1/storage/buckets/illustrations/files/6918c43a0036cda8d1e1/view?project=6861b5e20027ba386475&mode=admin' },
   ];
 
   const getPrevIndex = useCallback(() => (activeCategory - 1 + categories.length) % categories.length, [activeCategory, categories.length]);
@@ -145,7 +145,7 @@ const CategorySection = () => {
           {/* Right Side Hero */}
           <div className="category-right relative h-[500px] md:h-[600px] lg:h-[800px] rounded-3xl lg:rounded-[40px] overflow-hidden shadow-2xl group">
             <div className="relative w-full h-full transition duration-700 transform hover:scale-[1.02]">
-              <Image src="/assets/images/illustrations/sate.jpg" alt="UMKM Showcase - Sate Bakar" fill className="object-cover group-hover:scale-105 transition-transform duration-700" priority />
+              <Image src="https://syd.cloud.appwrite.io/v1/storage/buckets/illustrations/files/6918c4450018dfdc8210/view?project=6861b5e20027ba386475&mode=admin" alt="UMKM Showcase - Sate Bakar" fill className="object-cover group-hover:scale-105 transition-transform duration-700" priority />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
             </div>
             <div className="absolute bottom-6 left-6 text-white">

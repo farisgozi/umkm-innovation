@@ -137,7 +137,7 @@ export default function Navbar() {
                     className="relative w-14 h-14 md:w-16 md:h-16"
                   >
                     <Image
-                      src="/assets/images/Logo.png"
+                      src="https://syd.cloud.appwrite.io/v1/storage/buckets/hero-assets/files/6918c3850016d804b653/view?project=6861b5e20027ba386475&mode=admin"
                       alt="UMKM Kita Logo"
                       fill
                       className="object-contain"

@@ -62,7 +62,7 @@ export default function ListUMKMSection({ filteredData, isSearching = false  }: 
             const image =
               item.gallery && item.gallery.length > 0
                 ? item.gallery[0]
-                : '/assets/images/umkm/placeholder.jpg';
+                : 'https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-placeholder/view?project=6861b5e20027ba386475&mode=admin';
 
             return (
               <Link

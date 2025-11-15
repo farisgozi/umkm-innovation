@@ -22,7 +22,7 @@ export default function CeritaSection() {
       business: "Warung Nasi Pecel",
       story:
         "Dari dapur rumah menjadi warung favorit warga. 15 tahun melayani dengan bumbu resep turun temurun.",
-      image: "/assets/images/avatar/female1.png",
+      image: "https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c2fd00230c92263c/view?project=6861b5e20027ba386475&mode=admin",
     },
     {
       id: 2,
@@ -30,7 +30,7 @@ export default function CeritaSection() {
       business: "Kerajinan Bambu",
       story:
         "Mengubah bambu menjadi seni. Produk lokal yang kini merambah pasar internasional.",
-      image: "/assets/images/avatar/male1.png",
+      image: "https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c30f00185484c2ec/view?project=6861b5e20027ba386475&mode=admin",
     },
     {
       id: 3,
@@ -38,7 +38,7 @@ export default function CeritaSection() {
       business: "Kopi Artisan",
       story:
         "Dari barista sampingan menjadi coffee shop dengan 3 cabang. Mimpi yang terwujud dengan ketekunan.",
-      image: "/assets/images/avatar/female3.png",
+      image: "https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c30a0030bf4a8610/view?project=6861b5e20027ba386475&mode=admin",
     },
   ];
 
@@ -93,7 +93,7 @@ export default function CeritaSection() {
           {/* Left: Image & Banner */}
           <div className="relative h-[480px] md:h-[600px] lg:h-[720px] rounded-3xl overflow-hidden shadow-2xl parallax-layer" data-speed="0.15">
             <Image
-              src="/assets/images/umkm/cerita.jpg"
+              src="https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-cerita/view?project=6861b5e20027ba386475&mode=admin"
               alt="UMKM Story"
               fill
               className="object-cover scale-110"

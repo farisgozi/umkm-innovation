@@ -32,19 +32,19 @@ interface ExploreSectionProps {
 }
 
 const vendorImageMap: Record<string, string> = {
-  "11": "/assets/images/umkm/mysbar-coffe.webp",
-  "8": "/assets/images/umkm/ayamGeprek77.webp",
-  "1": "/assets/images/umkm/bakmi-cikini.webp",
-  "10": "/assets/images/umkm/martabak-view.webp",
-  "4": "/assets/images/umkm/bubur-menteng.webp",
+  "11": "https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-mysbar-coffe/view?project=6861b5e20027ba386475&mode=admin",
+  "8": "https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-ayamGeprek77/view?project=6861b5e20027ba386475&mode=admin",
+  "1": "https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-bakmi-cikini/view?project=6861b5e20027ba386475&mode=admin",
+  "10": "https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-martabak-view/view?project=6861b5e20027ba386475&mode=admin",
+  "4": "https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-bubur-menteng/view?project=6861b5e20027ba386475&mode=admin",
 };
 
 const productImageMap: Record<string, string> = {
-  "11": "/assets/images/umkm/mysbar-product.webp",
-  "8": "/assets/images/umkm/ayamGeprek77-produk.webp",
-  "1": "/assets/images/umkm/bakmi-produk.webp",
-  "10": "/assets/images/umkm/martabak-produk.webp",
-  "4": "/assets/images/umkm/bubur-produk.webp",
+  "11": "https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-mysbar-product/view?project=6861b5e20027ba386475&mode=admin",
+  "8": "https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-ayamGeprek77-produk2/view?project=6861b5e20027ba386475&mode=admin",
+  "1": "https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-bakmi-produk/view?project=6861b5e20027ba386475&mode=admin",
+  "10": "https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-martabak-produk/view?project=6861b5e20027ba386475&mode=admin",
+  "4": "https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-bubur-produk/view?project=6861b5e20027ba386475&mode=admin",
 };
 
 // ===============================
@@ -57,10 +57,10 @@ const allowedUMKM = ["1", "8", "11", "10", "4"];
 // ===============================
 const generateExploreItems = (): ExploreItem[] => {
   const defaultReviewAvatars = [
-    '/assets/images/avatar/male1.png',
-    '/assets/images/avatar/male2.png',
-    '/assets/images/avatar/female1.png',
-    '/assets/images/avatar/female2.png',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c30f00185484c2ec/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c3150026cd837cfa/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c2fd00230c92263c/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c304002295e53a62/view?project=6861b5e20027ba386475&mode=admin',
   ];
 
   const dummyReviewText = [
@@ -81,8 +81,8 @@ const generateExploreItems = (): ExploreItem[] => {
       text: dummyReviewText[index % dummyReviewText.length],
     };
 
-    const productImage = productImageMap[u.id] ?? '/assets/images/placeholder-food.webp';
-    const vendorImage = vendorImageMap[u.id] ?? '/assets/images/placeholder-food.webp';
+    const productImage = productImageMap[u.id] ?? 'https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-placeholder/view?project=6861b5e20027ba386475&mode=admin';
+    const vendorImage = vendorImageMap[u.id] ?? 'https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-placeholder/view?project=6861b5e20027ba386475&mode=admin';
 
     return {
       umkmId: u.id,

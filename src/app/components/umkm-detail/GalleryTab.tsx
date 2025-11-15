@@ -11,7 +11,7 @@ interface GalleryTabProps {
 export default function GalleryTab({ umkm }: GalleryTabProps) {
    const galleryImages = Array.isArray(umkm.gallery)
     ? umkm.gallery
-    : [umkm.gallery || '/assets/images/umkm/placeholder.jpg'];
+    : [umkm.gallery || 'https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-placeholder/view?project=6861b5e20027ba386475&mode=admin'];
 
   return (
     <motion.div
@@ -33,7 +33,7 @@ export default function GalleryTab({ umkm }: GalleryTabProps) {
             className="group relative aspect-square rounded-xl sm:rounded-2xl overflow-hidden bg-[#FFF2E7] cursor-pointer"
           >
             <Image
-              src={img || '/assets/images/umkm/placeholder.jpg'}
+              src={img || 'https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-placeholder/view?project=6861b5e20027ba386475&mode=admin'}
               alt={`Gallery ${index + 1}`}
               fill
               className="object-cover group-hover:scale-110 transition-transform duration-500"

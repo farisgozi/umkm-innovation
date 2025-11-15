@@ -63,7 +63,7 @@ export default function HeroSection() {
     >
       <div className="absolute inset-0 -z-10 w-full h-[120vh] will-change-transform">
         <Image
-          src="/assets/images/hero-bg.jpg"
+          src="https://syd.cloud.appwrite.io/v1/storage/buckets/hero-assets/files/6918c37e001c0dab8356/view?project=6861b5e20027ba386475&mode=admin"
           alt="Kota Jakarta senja"
           fill
           priority

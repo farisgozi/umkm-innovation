@@ -1,13 +1,13 @@
 // Utility function untuk handle gambar UMKM
-export function getImagePath(imagePath: string, fallback: string = '/assets/images/umkm/placeholder.jpg'): string {
+export function getImagePath(imagePath: string, fallback: string = 'https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-placeholder/view?project=6861b5e20027ba386475&mode=admin'): string {
   // Daftar gambar yang pasti ada
   const availableImages = [
-    '/assets/images/umkm/Bakmi.webp',
-    '/assets/images/umkm/ayam_geprek_77.webp',
-    '/assets/images/umkm/baram-cafe.webp',
-    '/assets/images/umkm/cerita.jpg',
-    '/assets/images/umkm/geprek-cikini.webp',
-    '/assets/images/umkm/produk.webp'
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-Bakmi/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-ayamGeprek77/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-baramCafe-produk/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-cerita/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/umkm-images/files/umkm-geprek-cikini/view?project=6861b5e20027ba386475&mode=admin',
+    ''
   ];
 
   // Jika gambar ada dalam daftar, return path asli
@@ -19,14 +19,14 @@ export function getImagePath(imagePath: string, fallback: string = '/assets/imag
   return fallback;
 }
 
-export function getAvatarPath(avatarPath: string, fallback: string = '/assets/images/avatar/female1.png'): string {
+export function getAvatarPath(avatarPath: string, fallback: string = 'https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c2fd00230c92263c/view?project=6861b5e20027ba386475&mode=admin'): string {
   const availableAvatars = [
-    '/assets/images/avatar/female1.png',
-    '/assets/images/avatar/female2.png',
-    '/assets/images/avatar/female3.png',
-    '/assets/images/avatar/male1.png',
-    '/assets/images/avatar/male2.png',
-    '/assets/images/avatar/male3.png'
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c2fd00230c92263c/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c304002295e53a62/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c30a0030bf4a8610/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c30f00185484c2ec/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c3150026cd837cfa/view?project=6861b5e20027ba386475&mode=admin',
+    'https://syd.cloud.appwrite.io/v1/storage/buckets/avatar-images/files/6918c31a0002e95e4b1c/view?project=6861b5e20027ba386475&mode=admin'
   ];
 
   if (availableAvatars.includes(avatarPath)) {
