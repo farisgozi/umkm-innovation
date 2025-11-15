@@ -106,7 +106,7 @@ export const umkmDummy: UMKM[] = [
     lat: -6.186987752529305,
     lng: 106.83360178758743,
     category: 'Makanan',
-    description: 'Warung kopi legendaris dengan kopi tubruk authentic dan suasana hangat untuk nongkrong mahasiswa.',
+    description: 'Bubur Ayam H. Jewo adalah warung kaki lima legendaris yang selalu menjadi destinasi sarapan pagi di kawasan Menteng. Bubur disajikan dengan tekstur kental yang lembut, dilengkapi suwiran ayam, kacang, kerupuk, dan kuah kaldu kuning khas yang gurih. Dijual di pinggir jalan, gerai ini buka sejak subuh dan sering habis sebelum jam 10 pagi!',
     gallery: [
       '/assets/images/umkm/bubur-menteng.webp',
       '/assets/images/umkm/bubur-view.webp',
@@ -179,7 +179,7 @@ export const umkmDummy: UMKM[] = [
     lat: -6.1866697620068,
     lng: 106.83310821223283,
     category: 'Makanan',
-    description: '',
+    description: 'Gudeg Jogja Bu Tinah adalah *hidden gem* kuliner kaki lima yang populer, terletak tidak jauh dari Stasiun Gondangdia. Gudeg di sini terkenal dengan rasa manis gurih otentik khas Jogja, disajikan dengan krecek pedas dan pilihan lauk lengkap. Tempat ini menjadi favorit pekerja kantoran dan komuter untuk sarapan maupun makan malam.',
     gallery: [
       '/assets/images/umkm/gudeg-menteng.webp',
       '/assets/images/umkm/gudeg-produk.webp',
@@ -207,6 +207,7 @@ export const umkmDummy: UMKM[] = [
     gallery: [
       '/assets/images/umkm/ayamGeprek77.webp',
       '/assets/images/umkm/ayamGeprek77-produk.webp',
+      '/assets/images/umkm/ayamGeprek77-produk2.webp',
     ],
     rating: 4.3,
     phone: '+62 896-1218-0158',
@@ -280,6 +281,27 @@ export const umkmDummy: UMKM[] = [
       '/assets/images/umkm/mysbar-product2.webp',
       '/assets/images/umkm/mysbar-product3.webp',
       '/assets/images/umkm/mysbar-product4.webp',
+    ],
+    rating: 4.8,
+    phone: '+62 821-3335-3110',
+    openHours: { 
+      open: '11:00', 
+      close: '23:00', 
+      days: ['Setiap Hari'] 
+    },
+  },
+  {
+    id: '12',
+    name: 'Mie Ayam Bakso Kangen',
+    address: 'Jl. Kemang Timur No.46, RT.10/RW.4, Bangka, Kec. Mampang Prpt., Kota Jakarta Selatan, Daerah Khusus Ibukota Jakarta',
+    lat: -6.236547609513081,
+    lng: 106.91800025659701,
+    category: 'Kedai Kopi',
+    description: 'MYS-BAR COFFE adalah tempat nongkrong modern yang menyajikan kopi dan minuman kekinian dengan harga terjangkau. Suasana yang nyaman dan estetis sangat cocok untuk bersantai atau bekerja.',
+    gallery: [
+      '/assets/images/umkm/bakso-kangen.webp',
+      '/assets/images/umkm/bakso-kangen-produk.webp',
+      '/assets/images/umkm/bakso-kangen-produk2.webp',
     ],
     rating: 4.8,
     phone: '+62 821-3335-3110',

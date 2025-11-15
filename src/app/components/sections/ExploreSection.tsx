@@ -33,15 +33,15 @@ interface ExploreSectionProps {
 
 const vendorImageMap: Record<string, string> = {
   "11": "/assets/images/umkm/mysbar-coffe.webp",
-  "8": "/assets/images/umkm/bakmi-cikini.webp",
+  "8": "/assets/images/umkm/ayamGeprek77.webp",
   "1": "/assets/images/umkm/bakmi-cikini.webp",
   "10": "/assets/images/umkm/martabak-view.webp",
   "4": "/assets/images/umkm/bubur-menteng.webp",
 };
 
 const productImageMap: Record<string, string> = {
-  "12": "/assets/images/umkm/mysbar-product.webp",
-  "8": "/assets/images/umkm/bakmi-produk.webp",
+  "11": "/assets/images/umkm/mysbar-product.webp",
+  "8": "/assets/images/umkm/ayamGeprek77-produk.webp",
   "1": "/assets/images/umkm/bakmi-produk.webp",
   "10": "/assets/images/umkm/martabak-produk.webp",
   "4": "/assets/images/umkm/bubur-produk.webp",
@@ -50,7 +50,7 @@ const productImageMap: Record<string, string> = {
 // ===============================
 // 4. Filter hanya 5 UMKM pilihan
 // ===============================
-const allowedUMKM = ["1", "8", "12", "10", "4"];
+const allowedUMKM = ["1", "8", "11", "10", "4"];
 
 // ===============================
 // 5. Generate ExploreItems FINAL
@@ -249,7 +249,7 @@ export default function ExploreSection({
                           <Star className="w-5 h-5 fill-orange-400 text-orange-400" />
                           <span className="font-bold text-gray-900">{currentItem.review.rating}</span>
                         </div>
-                        <p className="text-gray-700">&quot;{currentItem.review.text}&quot;</p>
+                        <p className="text-gray-700 line-clamp-2">&quot;{currentItem.review.text}&quot;</p>
                       </div>
                     </div>
 
@@ -264,7 +264,7 @@ export default function ExploreSection({
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40" />
                       <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
                         <h3 className="text-2xl md:text-3xl font-bold mb-2">{currentItem.productName}</h3>
-                        <p className="text-white/90">{currentItem.productDescription}</p>
+                        <p className="text-white/90 line-clamp-2">{currentItem.productDescription}</p>
                       </div>
                     </div>
 
