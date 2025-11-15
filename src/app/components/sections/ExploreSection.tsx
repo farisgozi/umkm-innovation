@@ -32,7 +32,7 @@ interface ExploreSectionProps {
 }
 
 const vendorImageMap: Record<string, string> = {
-  "12": "/assets/images/umkm/mysbar-coffe.webp",
+  "11": "/assets/images/umkm/mysbar-coffe.webp",
   "8": "/assets/images/umkm/bakmi-cikini.webp",
   "1": "/assets/images/umkm/bakmi-cikini.webp",
   "10": "/assets/images/umkm/martabak-view.webp",
@@ -90,7 +90,7 @@ const generateExploreItems = (): ExploreItem[] => {
       vendorDescription: u.description ?? 'UMKM ini menyediakan produk terbaik dengan harga terjangkau.',
       vendorImage,
       review,
-      productName: `Produk Unggulan - ${u.name}`,
+      productName: `${u.name}`,
       productDescription: u.description ?? 'Produk favorit pelanggan dan wajib dicoba.',
       productImage,
     };
