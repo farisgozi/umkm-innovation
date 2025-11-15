@@ -84,6 +84,7 @@ export default function CeritaSection() {
   return (
     <section
       ref={sectionRef}
+      id="cerita"
       className="py-16 md:py-20 overflow-hidden"
       aria-labelledby="cerita-heading"
     >

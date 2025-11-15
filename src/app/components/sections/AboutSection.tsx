@@ -157,7 +157,7 @@ export default function AboutSection() {
                 } ${index === 3 ? "sm:mt-8" : ""}`}
               >
                 {/* Image */}
-                <div className="relative w-full h-40 md:h-48 mb-4 rounded-2xl overflow-hidden card-image bg-white/40">
+                <div className="relative w-full h-40 md:h-48 mb-4 mt-4 rounded-2xl overflow-hidden card-image bg-white/40">
                   <Image
                     src={card.image}
                     alt={card.title}
@@ -168,7 +168,7 @@ export default function AboutSection() {
 
                 {/* Text */}
                 <div className="space-y-2">
-                  <h3 className="text-2xl md:text-3xl font-bold text-[#2E2E2E]">
+                  <h3 className="text-2xl md:text-2xl font-bold text-[#2E2E2E]">
                     {card.title}
                   </h3>
                   <p className="text-sm md:text-base text-[#444] leading-relaxed">

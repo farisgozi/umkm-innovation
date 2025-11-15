@@ -63,6 +63,8 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
     return `${umkm.openHours.open} - ${umkm.openHours.close}`;
   };
 
+    const heroImage = umkm.gallery?.[0]; 
+
   return (
     <motion.div
       key={umkm.id}
@@ -82,13 +84,17 @@ export const UMKMPopupCard: React.FC<UMKMPopupCardProps> = ({
       {isMobile && <div className="w-10 h-1.5 bg-[#6B6B6B] rounded-full mx-auto mb-3" />}
 
       <div className="flex gap-4 items-start">
-        <Image
-          src={umkm.image || '/placeholder.png'}
-          alt={umkm.name}
-          width={64}
-          height={64}
-          className="w-16 h-16 rounded-2xl object-cover shadow-md flex-shrink-0"
-        />
+        {heroImage && (
+          <Image
+            src={heroImage}
+            alt={umkm.name}
+            width={64}
+            height={64}
+            className="w-16 h-16 rounded-2xl object-cover shadow-md flex-shrink-0"
+          />
+        )
+
+        }
         <div className="flex-1">
           <h3 className="text-lg font-bold text-[#2E2E2E]">{umkm.name}</h3>
           <p className="text-sm text-gray-500">{umkm.address}</p>

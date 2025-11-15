@@ -1,6 +1,6 @@
 'use client';
 
-import { UtensilsCrossed, Shirt, Gem, Briefcase, Store } from 'lucide-react';
+import { UtensilsCrossed, Shirt, Briefcase, Store, GlassWater } from 'lucide-react';
 import { createLucideIconMarker } from './leaflet-icons';
 import { UMKM as UMKMType } from '../data/umkmDummy';
 import { JSX } from 'react';
@@ -24,7 +24,7 @@ export const getDistanceKm = (lat1: number, lon1: number, lat2: number, lon2: nu
 export const CATEGORY_COLOR: Record<string, string> = {
   Makanan: '#F97316',
   Fashion: '#3B82F6',
-  Kerajinan: '#10B981',
+  Minuman: '#10B981',
   Jasa: '#8B5CF6',
   Default: '#9CA3AF',
 };
@@ -35,9 +35,9 @@ export const getCategoryIcon = (item: UMKMType, hoveredId: string | null) => {
   const baseClass = `w-4 h-4 text-[#2E2E2E] transition-transform ${isHovered ? 'scale-110' : 'scale-100'}`;
 
   const iconMap: Record<string, JSX.Element> = {
-    Kuliner: <UtensilsCrossed className={baseClass} />,
+    Makanan: <UtensilsCrossed className={baseClass} />,
     Fashion: <Shirt className={baseClass} />,
-    Kerajinan: <Gem className={baseClass} />,
+    Minuman: <GlassWater className={baseClass} />,
     Jasa: <Briefcase className={baseClass} />,
     Default: <Store className={baseClass} />,
   };

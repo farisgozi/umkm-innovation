@@ -82,7 +82,7 @@ const CategorySection = () => {
   }, [getPrevIndex, getNextIndex]);
 
   return (
-    <section ref={ref} className="py-16 md:py-20">
+    <section ref={ref} className="py-16 md:py-20" id='kategori'>
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
 
@@ -137,9 +137,6 @@ const CategorySection = () => {
                 <div key={item.id} className="relative aspect-square rounded-2xl lg:rounded-3xl overflow-hidden shadow-lg cursor-pointer group transition-all duration-500 hover:scale-[1.03] hover:-translate-y-10">
                   <Image src={item.preview} alt={item.name} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 bg-[#FFC896] py-3 md:py-4 lg:py-5 rounded-b-2xl lg:rounded-b-3xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h3 className="text-gray-900 font-bold text-sm px-2">Lihat Detail</h3>
-                  </div>
                 </div>
               ))}
             </div>

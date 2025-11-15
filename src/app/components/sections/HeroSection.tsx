@@ -59,10 +59,9 @@ export default function HeroSection() {
     <section
       ref={ref}
       id="beranda"
-      className="relative flex items-center min-h-screen"
+      className="relative flex items-center min-h-screen overflow-hidden"
     >
-      {/* === Background Layer === */}
-      <div className="absolute inset-0 -z-20 will-change-transform">
+      <div className="absolute inset-0 -z-10 w-full h-[120vh] will-change-transform">
         <Image
           src="/assets/images/hero-bg.jpg"
           alt="Kota Jakarta senja"
@@ -73,7 +72,6 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#2E2E2E]/20 to-[#2E2E2E]/80 bg-gradient" />
       </div>
 
-      {/* === Content === */}
       <div className="relative z-10 container mx-auto px-6 md:px-8 lg:px-16 py-20 min-h-screen flex flex-col justify-center">
         <div className="max-w-4xl space-y-6">
           {/* Kinetic Typography */}
@@ -85,28 +83,25 @@ export default function HeroSection() {
             Sekitarmu
           </h1>
 
-          {/* Deskripsi */}
           <p className="hero-desc text-lg md:text-xl text-[#FFF8F3]/90 leading-relaxed max-w-2xl">
             Dari warung kopi legendaris, kedai bakso andalan, hingga usaha kreatif di kampusmu — semua ada di satu tempat. Jelajahi, dukung, dan kenali cerita dibalik setiap karya lokal.
           </p>
 
-          {/* CTA Buttons */}
           <div className="hero-cta mt-8 flex flex-wrap gap-4 items-center">
             <a
-              href="#explore"
+              href="#eksplor"
               className="inline-flex items-center font-bold rounded-full bg-[#FF9E6B] hover:bg-[#FF885B] text-[#FFF8F3] px-8 py-4 transition-all duration-300 shadow-lg"
             >
               Jelajahi Sekarang
             </a>
             <a
-              href="#about"
+              href="#tentang"
               className="inline-flex items-center font-bold text-[#FFF8F3] px-8 py-4 rounded-full bg-[#FFF8F3]/10 backdrop-blur-sm border border-[#FFF8F3]/30 transition-all duration-300"
             >
               Pelajari Lebih Lanjut
             </a>
           </div>
 
-          {/* Scroll Hint */}
           <div className="hero-scroll-hint mt-16 flex items-center gap-3 text-[#FFF8F3]/70">
             <div className="h-px bg-[#FFF8F3]/30 w-12" />
             <span className="text-sm font-medium">

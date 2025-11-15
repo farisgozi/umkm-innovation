@@ -12,6 +12,7 @@ interface UMKMCardProps {
 }
 
 export default function UMKMCard({ umkm, index = 0 }: UMKMCardProps) {
+  const heroImage = umkm.gallery?.[0]; 
   const cardVariants = {
     hidden: { opacity: 0, y: 60 },
     visible: {
@@ -38,12 +39,14 @@ export default function UMKMCard({ umkm, index = 0 }: UMKMCardProps) {
         <div className="bg-white rounded-3xl overflow-hidden shadow-lg border border-secondary/20 hover:shadow-xl transition-all duration-500 group">
           {/* Image */}
           <div className="relative aspect-[4/3] overflow-hidden">
+          {heroImage && (
             <Image
-              src={umkm.image || '/assets/images/umkm/placeholder.jpg'}
+              src={heroImage}
               alt={umkm.name}
               fill
               className="object-cover group-hover:scale-110 transition-transform duration-700"
             />
+          )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
             
             {/* Category Badge */}

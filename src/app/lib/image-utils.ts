@@ -1,5 +1,5 @@
 // Utility function untuk handle gambar UMKM
-export function getImagePath(imagePath: string, fallback: string = '/assets/images/umkm/produk.webp'): string {
+export function getImagePath(imagePath: string, fallback: string = '/assets/images/umkm/placeholder.jpg'): string {
   // Daftar gambar yang pasti ada
   const availableImages = [
     '/assets/images/umkm/Bakmi.webp',

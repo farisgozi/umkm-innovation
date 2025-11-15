@@ -44,10 +44,10 @@ export default function Navbar() {
   }, [isOpen, isSearchOpen]);
 
   const navItems = [
-    { name: "Beranda", href: "#beranda" },
-    { name: "Kategori", href: "#kategori" },
-    { name: "Eksplor", href: "#eksplor" },
-    { name: "Cerita", href: "#cerita" },
+    { name: "Beranda", href: "/#beranda" },
+    { name: "Kategori", href: "/#kategori" },
+    { name: "Eksplor", href: "/#eksplor" },
+    { name: "Cerita", href: "/#cerita" },
     { name: "Tentang Kami", href: "#tentang" },
   ];
 
@@ -126,7 +126,7 @@ export default function Navbar() {
                       type="text"
                       placeholder="Search"
                       autoFocus
-                      className={`outline-none bg-transparent min-w-[120px] md:min-w-[200px] font-bold text-base md:text-lg placeholder:font-bold ${
+                      className={`outline-none bg-transparent min-w-[120px] sm:min-w-[100px] font-bold text-base md:text-lg placeholder:font-bold ${
                         scrolled ? "text-[#2E2E2E] placeholder:text-gray-500" : "text-white placeholder:text-white/70"
                       }`}
                       onBlur={() => setIsSearchOpen(false)}
