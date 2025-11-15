@@ -34,6 +34,7 @@ export default function ListUMKMSection({ filteredData, isSearching = false  }: 
   }, [filteredData]);
 
   const sectionRef = useGsapSection({
+    desktopOnly: true,
     start: 'top 80%',
     end: '10% top',
     scrub: 0.5,
